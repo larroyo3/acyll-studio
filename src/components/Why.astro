@@ -1,0 +1,196 @@
+---
+import Icon from './Icon.astro';
+
+const versions = ['v1.1 · Corrections', 'v1.2 · Nouvelle fonctionnalité', 'v2.0 · Refonte'];
+---
+
+<section id="pourquoi" class="container why section-stack">
+  <div class="section-head reveal">
+    <div class="section-head__text">
+      <span class="eyebrow">Pourquoi Acyll Studio</span>
+      <h2 class="h2">La qualité d’une agence, la souplesse d’un freelance.</h2>
+    </div>
+    <p class="lead">
+      Pas d’intermédiaire, pas de surprise sur la facture : un développeur expérimenté qui s’engage sur votre projet de
+      bout en bout.
+    </p>
+  </div>
+
+  <div class="bento why__grid">
+    <article class="card tile reveal span-2 why__kmp">
+      <div class="why__text">
+        <h3>Android et iOS, une seule base de code</h3>
+        <p>
+          Avec Kotlin Multiplatform, la logique de votre app est écrite une fois pour les deux plateformes. Moins de
+          coûts, moins de bugs, des mises à jour livrées en même temps.
+        </p>
+      </div>
+      <div class="why__diagram" aria-hidden="true">
+        <div class="why__common">
+          <span class="why__mono">commonMain</span>
+          <span class="why__bar" style="width: 90%; background: var(--color-primary-hover);"></span>
+          <span class="why__bar" style="width: 70%;"></span>
+          <span class="why__bar" style="width: 80%;"></span>
+        </div>
+        <div class="why__flows">
+          <span class="why__flow"><span></span></span>
+          <span class="why__flow"><span style="animation-delay: .4s;"></span></span>
+        </div>
+        <div class="why__targets">
+          <span class="why__target"><span></span>Android</span>
+          <span class="why__target"><span></span>iOS</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="card tile reveal why__small">
+      <span class="ico"><Icon name="user" size={26} /></span>
+      <h3>Un seul interlocuteur</h3>
+      <p>Vous parlez directement au développeur qui écrit votre code. Les décisions sont rapides, rien ne se perd en route.</p>
+    </article>
+
+    <article class="card tile reveal why__small">
+      <span class="ico"><Icon name="wallet" size={26} /></span>
+      <h3>Un budget sous contrôle</h3>
+      <p>
+        Un devis clair et détaillé avant de commencer, des points réguliers ensuite : vous savez toujours où en est votre
+        projet et ce que vous payez.
+      </p>
+    </article>
+
+    <article class="card tile reveal span-2 why__after">
+      <div class="why__text why__text--narrow">
+        <h3>Je reste après la mise en ligne</h3>
+        <p>
+          Corrections, nouvelles fonctionnalités, mises à jour imposées par les stores : votre app continue d’évoluer,
+          avec le développeur qui la connaît par cœur.
+        </p>
+      </div>
+      <ol class="why__versions" aria-label="Exemple de vie d’une app">
+        <li class="is-first">v1.0 · Publication</li>
+        {
+          versions.map((v) => (
+            <>
+              <li class="why__sep" aria-hidden="true" />
+              <li>{v}</li>
+            </>
+          ))
+        }
+      </ol>
+    </article>
+  </div>
+</section>
+
+<style>
+  .why { padding-block: 88px 32px; }
+  .why__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .why article { padding: 32px; }
+  .why h3 {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.2;
+  }
+  .why p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--text-secondary); }
+
+  .why__kmp {
+    grid-column: span 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 32px;
+  }
+  .why__text { flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+  .why__text--narrow { flex: none; max-width: 560px; }
+
+  .why__diagram {
+    flex: 1 1 260px;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .why__common {
+    width: 120px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: var(--surface-overlay);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .why__mono { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+  .why__bar { display: block; height: 6px; border-radius: 3px; background: var(--color-border); }
+  .why__flows { display: flex; flex-direction: column; gap: 28px; }
+  .why__flow {
+    position: relative;
+    display: block;
+    width: 44px;
+    height: 2px;
+    background: var(--color-border);
+    overflow: hidden;
+  }
+  .why__flow span {
+    position: absolute;
+    inset: 0;
+    background: var(--color-on-background);
+    animation: acyll-flow 2.2s cubic-bezier(.6, 0, .3, 1) infinite;
+  }
+  .why__targets { display: flex; flex-direction: column; gap: 12px; }
+  .why__target {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px 8px 8px;
+    border-radius: 14px;
+    background: var(--surface-overlay);
+    border: 1px solid var(--color-border);
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .why__target span {
+    width: 22px;
+    height: 36px;
+    border-radius: 6px;
+    border: 2px solid var(--color-on-background);
+  }
+
+  .why__small { display: flex; flex-direction: column; gap: 14px; }
+  .why__small h3 { font-size: 22px; }
+  .why__small p { font-size: 15px; }
+
+  .why__after {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .why__versions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .why__versions li:not(.why__sep) {
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-on-background-muted);
+    font-size: 14px;
+  }
+  .why__versions li.is-first {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    font-weight: 700;
+  }
+  .why__sep { width: 24px; height: 1px; background: var(--color-on-background-muted); }
+
+  @media (max-width: 600px) {
+    .why__sep { display: none; }
+  }
+</style>

@@ -1,0 +1,47 @@
+---
+import { clients } from '../data/content';
+---
+
+<section aria-label="Références" class="clients container">
+  <span class="clients__label">Ils m’ont fait confiance</span>
+  <div class="clients__track">
+    <div class="marquee mq-slow">
+      <div class="clients__group">
+        {clients.map((client) => <span>{client}</span>)}
+      </div>
+      <div class="clients__group" aria-hidden="true">
+        {clients.map((client) => <span>{client}</span>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .clients {
+    padding-block: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+  }
+  .clients__label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .clients__track { width: 100%; overflow: hidden; }
+  .clients__group {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    padding-right: 64px;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -.02em;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+</style>

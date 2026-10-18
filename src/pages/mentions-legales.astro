@@ -1,0 +1,38 @@
+---
+import { site } from '../data/site';
+import { withBase } from '../lib/url';
+import Legal from '../layouts/Legal.astro';
+---
+
+<Legal title="Mentions légales" updated="18 octobre 2026">
+  <h2>Éditeur du site</h2>
+  <p>
+    Le site {site.name} est édité par <strong>{site.owner}</strong>, entrepreneur individuel exerçant sous le nom
+    commercial {site.name}.
+  </p>
+  <ul>
+    <li>SIRET : {site.siret}</li>
+    <li>Adresse : [ADRESSE DU SIÈGE]</li>
+    <li>Email : <a href={`mailto:${site.email}`}>{site.email}</a></li>
+    <li>Directeur de la publication : {site.owner}</li>
+  </ul>
+
+  <h2>Hébergement</h2>
+  <p>
+    Le site est hébergé par GitHub, Inc. (service GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107,
+    États-Unis.
+  </p>
+
+  <h2>Propriété intellectuelle</h2>
+  <p>
+    Les textes, visuels, logos et maquettes présentés sur ce site sont la propriété de {site.owner} ou de leurs titulaires
+    respectifs. Toute reproduction, totale ou partielle, sans autorisation préalable est interdite.
+  </p>
+  <p>Polices de caractères : Poppins, Jost et IBM Plex Mono, sous licence SIL Open Font License.</p>
+
+  <h2>Données personnelles</h2>
+  <p>
+    Les informations sur la collecte et le traitement de vos données sont détaillées dans la
+    <a href={withBase('/confidentialite/')}>politique de confidentialité</a>.
+  </p>
+</Legal>

@@ -1,0 +1,336 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import Stars from './Stars.astro';
+import Wordmark from './Wordmark.astro';
+import portrait from '../assets/portrait.png';
+import { technologies } from '../data/content';
+import { site } from '../data/site';
+import { external } from '../lib/url';
+
+const codeLines = [
+  { text: '// commonMain : écrit une fois, livré sur Android et iOS', comment: true },
+  { text: 'class Panier(private val api: Api) {' },
+  { text: '    suspend fun total() = api.lignes().sumOf { it.prix }' },
+  { text: '}', cursor: true },
+];
+---
+
+<section id="top" class="hero container">
+  <div class="bento hero__grid">
+    <div class="hero-main a-rise span-2">
+      <Wordmark name="acyll" class="hero-main__mark" />
+      <span class="hero-main__badge">Studio de développement mobile · Android &amp; iOS</span>
+      <div class="hero-main__body">
+        <h1>Des apps mobiles qui font grandir votre activité.</h1>
+        <p>
+          Je conçois et développe des applications Android et iOS performantes, de l’idée à la publication sur les
+          stores. Une seule base de code, un seul interlocuteur, un budget maîtrisé.
+        </p>
+        <div class="hero-main__ctas">
+          <a class="btn btn--light" href={site.calendly} {...external}>
+            Réserver un appel gratuit
+            <Icon name="arrow-right" size={18} class="arr" />
+          </a>
+          <a class="btn btn--outline" href="#work">Voir les réalisations</a>
+        </div>
+        <ul class="hero-main__trust">
+          <li><Icon name="check" size={16} />Devis gratuit</li>
+          <li><Icon name="star" size={16} />Noté 5/5 sur Malt</li>
+          <li><Icon name="check" size={16} />Android et iOS</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="hero-portrait a-rise d1">
+      <Picture
+        src={portrait}
+        formats={['avif', 'webp']}
+        fallbackFormat="jpg"
+        widths={[400, 640, 960]}
+        sizes="(max-width: 600px) 92vw, (max-width: 900px) 48vw, 440px"
+        alt={`Portrait de ${site.owner}, fondateur d’${site.name}`}
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="hero-portrait__card">
+        <span class="hero-portrait__name">{site.owner}</span>
+        <span class="hero-portrait__role">{site.role}</span>
+        <span class="hero-portrait__rating">
+          <Stars size={14} label="Noté 5 sur 5 sur Malt" />
+          <span aria-hidden="true">5/5 sur Malt</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="hero-tile card tile a-rise d2">
+      <span class="kicker hero-tile__status"><span class="dot a-pulse"></span>Disponible</span>
+      <p>Nouveaux projets acceptés dès maintenant, à {site.city} ou à distance.</p>
+      <a class="nav-link hero-tile__link" href={site.calendly} {...external}>Choisir un créneau →</a>
+    </div>
+
+    <div class="hero-tile hero-tile--stat card tile a-rise d3">
+      <span class="hero-tile__number">20 000+</span>
+      <p>téléchargements sur Dict.fr Mobile, une app à laquelle j’ai contribué.</p>
+    </div>
+
+    <div class="hero-code a-rise d4 span-2">
+      <div class="hero-code__top">
+        <span class="kicker">Kotlin Multiplatform</span>
+        <span class="hero-code__dots" aria-hidden="true"><span></span><span></span><span></span></span>
+      </div>
+      <pre class="hero-code__pre">{
+        codeLines.map((line, i) => (
+          <span class:list={['type', { 'type--comment': line.comment }]} style={`animation-delay: ${0.4 + i * 1.1}s`}>{line.text}{line.cursor && <span class="cursor" aria-hidden="true" />}</span>
+        ))
+      }</pre>
+    </div>
+
+    <div class="hero-tech card a-rise d5 span-2">
+      <span class="kicker hero-tech__label">Technologies</span>
+      <p class="sr-only">{technologies.flat().map((t) => t.name).join(', ')}</p>
+      {
+        technologies.map((row, i) => (
+          <div class="hero-tech__row" aria-hidden="true">
+            <div class:list={['marquee', i % 2 ? 'mq-rev' : 'mq']}>
+              {[0, 1].map(() => (
+                <div class="hero-tech__group">
+                  {[...row, ...row].map((tech) => (
+                    <span class:list={['hero-tech__pill', { 'is-highlight': tech.highlight }]}>{tech.name}</span>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding-block: 28px 24px; }
+  .hero__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: minmax(210px, auto);
+  }
+
+  /* Carte principale */
+  .hero-main {
+    grid-column: span 2;
+    grid-row: span 2;
+    position: relative;
+    overflow: hidden;
+    padding: clamp(28px, 3.4vw, 44px);
+    border-radius: 28px;
+    background: var(--color-primary);
+    color: var(--color-on-background);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 28px;
+  }
+  .hero-main :global(.hero-main__mark) {
+    --wm-size: 190px;
+    position: absolute;
+    right: -10px;
+    bottom: 0;
+    color: var(--color-primary-hover);
+    transform: rotate(-8deg);
+    pointer-events: none;
+  }
+  .hero-main__badge {
+    position: relative;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(255, 252, 252, .45);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .hero-main__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .hero-main h1 {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: clamp(38px, 4.4vw, 60px);
+    line-height: 1.04;
+    letter-spacing: -.03em;
+  }
+  .hero-main p {
+    margin: 0;
+    max-width: 480px;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  .hero-main__ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+  .hero-main__trust {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    font-size: 14px;
+  }
+  .hero-main__trust li { display: flex; align-items: center; gap: 8px; }
+
+  /* Portrait */
+  .hero-portrait {
+    grid-row: span 2;
+    position: relative;
+    overflow: hidden;
+    border-radius: 28px;
+    background: var(--surface-card);
+    min-height: 340px;
+  }
+  .hero-portrait :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-portrait__card {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: var(--surface-overlay);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .hero-portrait__name { font-weight: 700; font-size: 16px; }
+  .hero-portrait__role { font-size: 13px; color: var(--text-secondary); }
+  .hero-portrait__rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* Petites tuiles */
+  .hero-tile {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .hero-tile p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+  }
+  .hero-tile__status { display: inline-flex; align-items: center; gap: 10px; }
+  .hero-tile__link {
+    margin-top: auto;
+    align-self: flex-start;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .hero-tile--stat { justify-content: space-between; }
+  .hero-tile__number {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: -.03em;
+  }
+
+  /* Code */
+  .hero-code {
+    grid-column: span 2;
+    padding: 28px;
+    border-radius: 28px;
+    background: var(--surface-overlay);
+    border: 1px solid var(--color-border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow: hidden;
+  }
+  .hero-code__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--text-muted);
+  }
+  .hero-code__dots { display: flex; gap: 6px; }
+  .hero-code__dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-border);
+  }
+  .hero-code__dots span:last-child { background: var(--color-primary-hover); }
+  .hero-code__pre {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    white-space: pre;
+    overflow: hidden;
+  }
+  .type {
+    display: block;
+    animation: acyll-type 1.1s steps(36, end) both;
+  }
+  .type--comment { color: var(--text-muted); }
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 17px;
+    margin-left: 4px;
+    vertical-align: -3px;
+    background: var(--text-secondary);
+    animation: acyll-blink 1s steps(1, end) infinite;
+  }
+
+  /* Technologies */
+  .hero-tech {
+    grid-column: span 2;
+    padding: 28px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    overflow: hidden;
+  }
+  .hero-tech__label { padding: 0 28px; color: var(--text-muted); }
+  .hero-tech__row { overflow: hidden; }
+  .hero-tech__group { display: flex; gap: 10px; padding-right: 10px; }
+  .hero-tech__pill {
+    padding: 10px 16px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border);
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  .hero-tech__pill.is-highlight {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  @media (max-width: 600px) {
+    .hero-portrait { min-height: 420px; }
+    .hero-code__pre { font-size: 12px; overflow-x: auto; scrollbar-width: none; }
+  }
+</style>

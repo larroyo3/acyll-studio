@@ -1,0 +1,15 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  size?: number;
+  gap?: number;
+  label?: string;
+}
+
+const { size = 15, gap = 2, label = '5 sur 5' } = Astro.props;
+---
+
+<span role="img" aria-label={label} style={`display: flex; gap: ${gap}px;`}>
+  {Array.from({ length: 5 }, () => <Icon name="star" size={size} />)}
+</span>

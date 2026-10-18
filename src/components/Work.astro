@@ -1,0 +1,222 @@
+---
+import CaseStudy from './CaseStudy.astro';
+import Icon from './Icon.astro';
+import ProjectCard from './ProjectCard.astro';
+import { projects } from '../data/projects';
+
+// Couleurs que prend la section quand un projet est ouvert.
+const themeCss = projects
+  .map(
+    (p) =>
+      `#work[data-open="${p.id}"]{--s-bg:${p.theme.bg};--s-ink:${p.theme.ink};--s-ink2:${p.theme.ink2};--s-line:${p.card.sectionLine}}`,
+  )
+  .join('');
+---
+
+<style is:inline set:html={themeCss}></style>
+
+<section id="work" class="work st">
+  <div class="container work__head">
+    <div class="work__intro reveal">
+      <span class="eyebrow work__eyebrow st">Réalisations</span>
+      <h2 class="h2">Des apps pensées pour durer</h2>
+      <p class="work__lead st">Choisissez un projet : la section prend ses couleurs et l’étude de cas s’ouvre juste en dessous.</p>
+    </div>
+    <div class="work__nav">
+      <button type="button" class="rail-btn st" data-rail="-1" aria-label="Projets précédents" aria-controls="rail-pro">
+        <Icon name="arrow-left" size={20} />
+      </button>
+      <button type="button" class="rail-btn st" data-rail="1" aria-label="Projets suivants" aria-controls="rail-pro">
+        <Icon name="arrow-right" size={20} />
+      </button>
+    </div>
+  </div>
+
+  <div id="rail-pro" class="rail" role="list" aria-label="Applications">
+    {
+      projects.map((project) => (
+        <div role="listitem" class="rail__item">
+          <ProjectCard project={project} />
+        </div>
+      ))
+    }
+    <div role="listitem" class="rail__item">
+      <a href="#contact" class="app-card-cta st">
+        <span class="app-card-cta__plus"><Icon name="plus" size={26} /></span>
+        <span class="app-card-cta__title">Votre app ici ?</span>
+        <span class="app-card-cta__text st">La prochaine étude de cas pourrait être la vôtre. Parlons de votre projet.</span>
+        <span class="app-card-cta__go">Démarrer un projet →</span>
+      </a>
+    </div>
+  </div>
+
+  <div id="etude-cas-pro" class="work__cases">
+    {
+      projects.map((project, i) => (
+        <div id={`etude-${project.id}`} class="work__case cs-in" data-case={project.id} hidden>
+          <CaseStudy project={project} index={i} total={projects.length} next={projects[(i + 1) % projects.length]} />
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .work {
+    --s-bg: var(--color-background);
+    --s-ink: var(--color-on-background);
+    --s-ink2: var(--color-on-background-secondary);
+    --s-line: var(--color-border);
+    margin-top: 48px;
+    padding: 88px 0 32px;
+    border-radius: 40px;
+    background: var(--s-bg);
+    color: var(--s-ink);
+  }
+  .st { transition: background-color .9s cubic-bezier(.4, 0, .2, 1), color .9s cubic-bezier(.4, 0, .2, 1), border-color .9s cubic-bezier(.4, 0, .2, 1); }
+
+  .work__head {
+    padding-bottom: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+  }
+  .work__intro { display: flex; flex-direction: column; gap: 16px; max-width: 700px; }
+  .work__eyebrow { border-color: var(--s-line); color: var(--s-ink2); }
+  .work__eyebrow::before { background: currentColor; }
+  .work__lead {
+    margin: 0;
+    max-width: 520px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--s-ink2);
+  }
+  .work__nav { display: flex; gap: 10px; }
+  .rail-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--s-ink2);
+    background: transparent;
+    color: var(--s-ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color .3s ease, color .3s ease, transform .25s ease;
+  }
+  .rail-btn:hover { transform: scale(1.06); }
+
+  .rail {
+    max-width: 1304px;
+    margin: 0 auto;
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 clamp(12px, 3vw, 32px);
+    padding: 12px clamp(12px, 3vw, 32px) 32px;
+    scrollbar-width: none;
+  }
+  .rail::-webkit-scrollbar { display: none; }
+  .rail__item { flex: 0 0 auto; scroll-snap-align: start; }
+
+  /* Cartes projet (rendues par ProjectCard) */
+  .rail :global(.app-card) { transition: transform .5s cubic-bezier(.2, .7, .2, 1), box-shadow .4s ease, opacity .4s ease; }
+  .rail :global(.app-card:hover) { transform: translateY(-8px); box-shadow: 0 18px 40px rgba(0, 0, 0, .35); }
+  .rail :global(.app-card .phone) { transition: transform .7s cubic-bezier(.2, .7, .2, 1); }
+  .rail :global(.app-card:hover .phone),
+  .rail :global(.app-card[aria-pressed='true'] .phone) { transform: translateY(-16px); }
+  .rail :global(.app-card .go) { transition: transform .3s ease; }
+  .rail :global(.app-card:hover .go) { transform: translateX(4px); }
+  .rail :global(.app-card[aria-pressed='true']) { box-shadow: 0 0 0 3px var(--s-ink); }
+  .rail.has-sel :global(.app-card[aria-pressed='false']) { opacity: .55; }
+  .rail.has-sel :global(.app-card[aria-pressed='false']:hover) { opacity: 1; }
+
+  .app-card-cta {
+    width: min(360px, calc(100vw - 48px));
+    height: 580px;
+    padding: 32px;
+    border-radius: 28px;
+    border: 2px dashed var(--s-ink2);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    transition: transform .5s cubic-bezier(.2, .7, .2, 1), border-color .9s cubic-bezier(.4, 0, .2, 1);
+  }
+  .app-card-cta:hover { transform: translateY(-8px); }
+  .app-card-cta__plus {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    border: 2px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .app-card-cta__title {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -.02em;
+  }
+  .app-card-cta__text { font-size: 15px; line-height: 1.55; color: var(--s-ink2); }
+  .app-card-cta__go { font-weight: 700; font-size: 15px; }
+</style>
+
+<script>
+  const section = document.getElementById('work');
+  const rail = document.getElementById('rail-pro');
+
+  if (section && rail) {
+    const cards = [...section.querySelectorAll<HTMLButtonElement>('[data-project]')];
+    const cases = [...section.querySelectorAll<HTMLElement>('[data-case]')];
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    const behavior = (): ScrollBehavior => (reducedMotion.matches ? 'auto' : 'smooth');
+
+    const render = (id: string | null) => {
+      if (id) section.dataset.open = id;
+      else delete section.dataset.open;
+      rail.classList.toggle('has-sel', id !== null);
+      cards.forEach((card) => card.setAttribute('aria-pressed', String(card.dataset.project === id)));
+      cases.forEach((cs) => (cs.hidden = cs.dataset.case !== id));
+    };
+
+    const open = (id: string, scroll: ScrollBehavior = behavior()) => {
+      const target = document.getElementById(`etude-${id}`);
+      if (!target) return;
+      render(id);
+      history.replaceState(null, '', `#etude-${id}`);
+      target.scrollIntoView({ behavior: scroll, block: 'start' });
+      target.querySelector<HTMLElement>('h3[tabindex]')?.focus({ preventScroll: true });
+    };
+
+    const close = () => {
+      const current = section.dataset.open;
+      render(null);
+      history.replaceState(null, '', '#work');
+      section.scrollIntoView({ behavior: behavior(), block: 'start' });
+      cards.find((card) => card.dataset.project === current)?.focus({ preventScroll: true });
+    };
+
+    section.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      const card = target.closest<HTMLElement>('[data-project]');
+      const next = target.closest<HTMLElement>('[data-case-open]');
+      const scrollBy = target.closest<HTMLElement>('[data-rail]');
+      if (card?.dataset.project) open(card.dataset.project);
+      else if (next?.dataset.caseOpen) open(next.dataset.caseOpen);
+      else if (target.closest('[data-case-close]')) close();
+      else if (scrollBy) rail.scrollBy({ left: Number(scrollBy.dataset.rail) * 380, behavior: behavior() });
+    });
+
+    // Lien direct vers une étude de cas (ex. …/#etude-kadanz).
+    const fromHash = location.hash.match(/^#etude-([\w-]+)$/);
+    if (fromHash) open(fromHash[1], 'auto');
+  }
+</script>

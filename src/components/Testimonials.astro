@@ -1,0 +1,146 @@
+---
+import Stars from './Stars.astro';
+import { testimonials } from '../data/content';
+import { site } from '../data/site';
+import { external } from '../lib/url';
+---
+
+<section id="avis" class="reviews">
+  <div class="container section-head">
+    <div class="section-head__text reveal reviews__intro">
+      <span class="eyebrow">Avis clients</span>
+      <h2 class="h2">Ils en parlent mieux que moi</h2>
+      <p class="reviews__lead">Les avis laissés par mes clients sur Malt à la fin de chaque mission.</p>
+    </div>
+    <a class="card tile reveal reviews__score" href={site.malt} {...external}>
+      <span class="reviews__score-value">5/5</span>
+      <span class="reviews__score-text">
+        <Stars size={18} gap={3} label="5 étoiles sur 5" />
+        <span class="reviews__score-meta">Note moyenne sur Malt · {site.missions} missions réalisées</span>
+        <span class="reviews__score-link">Voir tous les avis →</span>
+      </span>
+    </a>
+  </div>
+
+  <div class="reviews__row" role="region" aria-label="Avis clients, défilement automatique (survolez ou sélectionnez pour mettre en pause)" tabindex="0">
+    <div class="marquee mq-t">
+      {
+        [false, true].map((duplicate) => (
+          <div class="reviews__group" aria-hidden={duplicate ? 'true' : undefined}>
+            {testimonials.map((t) => (
+              <figure class:list={['review', { 'review--highlight': t.highlight }]}>
+                <div class="review__top">
+                  <Stars label="5 sur 5" />
+                  <span class="review__source">Avis Malt</span>
+                </div>
+                <blockquote>{t.quote}</blockquote>
+                <figcaption>
+                  <span class="review__avatar" aria-hidden="true">
+                    {t.author.startsWith('[') ? '?' : t.author.charAt(0)}
+                  </span>
+                  <span class="review__who">
+                    <span class="review__name">{t.author}</span>
+                    <span class="review__mission">{t.mission}</span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews {
+    padding-block: 72px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .reviews__intro { max-width: 640px; }
+  .reviews__lead { margin: 0; font-size: 16px; line-height: 1.65; color: var(--text-secondary); }
+
+  .reviews__score {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 26px;
+    border-radius: 24px;
+    text-decoration: none;
+  }
+  .reviews__score-value {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1;
+    letter-spacing: -.03em;
+  }
+  .reviews__score-text { display: flex; flex-direction: column; gap: 6px; }
+  .reviews__score-meta { font-size: 14px; color: var(--text-secondary); }
+  .reviews__score-link { font-size: 14px; font-weight: 700; }
+
+  .reviews__row { overflow: hidden; padding: 8px 0; }
+  .reviews__row:hover .mq-t,
+  .reviews__row:focus-within .mq-t { animation-play-state: paused; }
+  .reviews__group { display: flex; align-items: stretch; gap: 16px; padding-right: 16px; }
+
+  .review {
+    margin: 0;
+    flex: 0 0 min(380px, 85vw);
+    padding: 28px;
+    border-radius: 28px;
+    background: var(--surface-card);
+    border: 1px solid var(--color-border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    --review-line: var(--color-border);
+    --review-soft: var(--text-secondary);
+    --review-avatar: var(--color-primary-muted);
+  }
+  .review--highlight {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    --review-line: rgba(255, 252, 252, .35);
+    --review-soft: var(--color-on-background-secondary);
+    --review-avatar: var(--color-primary-active);
+  }
+  .review__top { display: flex; align-items: center; justify-content: space-between; }
+  .review__source {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .review--highlight .review__source { color: var(--color-on-background-secondary); }
+  .review blockquote { margin: 0; font-size: 16px; line-height: 1.6; }
+  .review figcaption {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--review-line);
+  }
+  .review__avatar {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--review-avatar);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+  .review__who { display: flex; flex-direction: column; }
+  .review__name { font-weight: 700; }
+  .review__mission { font-size: 13px; color: var(--review-soft); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reviews__row { overflow-x: auto; }
+  }
+</style>

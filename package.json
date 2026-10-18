@@ -1,0 +1,24 @@
+{
+  "name": "acyll-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Landing page d'Acyll Studio, studio de développement mobile Android et iOS.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^5.0.3",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/jost": "^5.3.0",
+    "@fontsource/poppins": "^5.3.0",
+    "astro": "~7.3.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
+  }
+}

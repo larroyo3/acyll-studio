@@ -1,0 +1,443 @@
+---
+import AppPhone from './AppPhone.astro';
+import Icon from './Icon.astro';
+import type { Project } from '../data/projects';
+import { site } from '../data/site';
+import { external } from '../lib/url';
+
+interface Props {
+  project: Project;
+  index: number;
+  total: number;
+  next: Project;
+}
+
+const { project: p, index, total, next } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+const t = p.theme;
+const vars = [
+  `--cs-bg: ${t.bg}`,
+  `--cs-panel: ${t.panel}`,
+  `--cs-glow: ${t.glow}`,
+  `--cs-ink: ${t.ink}`,
+  `--cs-ink2: ${t.ink2}`,
+  `--cs-accent: ${t.accent}`,
+  `--cs-on-accent: ${t.onAccent}`,
+  `--cs-accent-text: ${t.accentText}`,
+  `--cs-line: ${t.line}`,
+  `--cs-title-font: ${p.title.font}`,
+  `--cs-title-weight: ${p.title.weight}`,
+  `--cs-title-tracking: ${p.title.tracking}`,
+].join('; ');
+---
+
+<div class="cs" style={vars}>
+  <div class="cs__wrap cs__bar">
+    <button type="button" class="cs__back" data-case-close>
+      <Icon name="arrow-left" size={18} />
+      Retour aux projets
+    </button>
+    <span class="cs__index">Étude de cas · {pad(index + 1)} / {pad(total)}</span>
+  </div>
+
+  <section class="cs__wrap cs__hero" aria-labelledby={`etude-${p.id}-titre`}>
+    <div class="cs__intro">
+      <span class="cs__label">{p.kind}</span>
+      <h3 class="cs__title" id={`etude-${p.id}-titre`} tabindex="-1">{p.name}</h3>
+      <p class="cs__tagline">{p.tagline}</p>
+      <dl class="cs__meta">
+        {
+          p.meta.map((m) => (
+            <div>
+              <dt>{m.k}</dt>
+              <dd>{m.v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+    <div class="cs__visual">
+      <div class="cs__glow" aria-hidden="true"></div>
+      <div class="cs__float"><AppPhone app={p.id} /></div>
+    </div>
+  </section>
+
+  <section class="cs__context">
+    <div class="cs__wrap cs__context-inner">
+      <h4>Le contexte</h4>
+      <p>{p.context}</p>
+    </div>
+  </section>
+
+  <section class="cs__challenge">
+    <div class="cs__wrap cs__challenge-inner">
+      <h4 class="cs__label">Le défi</h4>
+      <p>{p.challenge}</p>
+    </div>
+  </section>
+
+  <section class="cs__wrap cs__done">
+    <h4>Ce que j’ai fait</h4>
+    <ol>
+      {
+        p.done.map((d, i) => (
+          <li>
+            <span class="cs__done-n">{pad(i + 1)}</span>
+            <h5>{d.t}</h5>
+            <p>{d.d}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="cs__wrap cs__facts" aria-label="Chiffres et technologies">
+    <div class="cs__facts-grid">
+      {
+        p.facts.map((f) => (
+          <div class="cs__fact">
+            <span class="cs__fact-v">{f.v}</span>
+            <span class="cs__fact-l">{f.l}</span>
+          </div>
+        ))
+      }
+    </div>
+    <ul class="cs__stack" aria-label="Technologies">
+      {p.stack.map((s) => <li>{s}</li>)}
+    </ul>
+  </section>
+
+  <section class="cs__wrap cs__end">
+    <div class="cs__cta">
+      <div class="cs__cta-text">
+        <h4>Un projet du même genre ?</h4>
+        <p>Parlons-en 30 minutes, sans engagement.</p>
+      </div>
+      <a href={site.calendly} {...external}>
+        Réserver un appel
+        <Icon name="arrow-right" size={18} />
+      </a>
+    </div>
+    <button type="button" class="cs__next" data-case-open={next.id}>
+      <span class="cs__next-label">Projet suivant</span>
+      <span class="cs__next-name">
+        {next.name}
+        <Icon name="arrow-right" size={40} stroke={1.6} />
+      </span>
+    </button>
+  </section>
+</div>
+
+<style>
+  .cs {
+    background: var(--cs-bg);
+    color: var(--cs-ink);
+    transition: background-color .7s ease, color .7s ease;
+  }
+  .cs__wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-inline: clamp(20px, 4vw, 48px);
+  }
+
+  .cs__bar {
+    padding-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .cs__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 0 20px 0 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--cs-ink2);
+    background: transparent;
+    color: var(--cs-ink);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .cs__index {
+    font-size: 13px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--cs-ink2);
+  }
+
+  .cs__hero {
+    padding-block: 56px 80px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 48px;
+  }
+  .cs__intro {
+    flex: 999 1 520px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .cs__label {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--cs-accent-text);
+  }
+  .cs__title {
+    margin: 0;
+    font-family: var(--cs-title-font);
+    font-weight: var(--cs-title-weight);
+    font-size: clamp(56px, 8.5vw, 124px);
+    line-height: .95;
+    letter-spacing: var(--cs-title-tracking);
+    outline: none;
+  }
+  .cs__tagline {
+    margin: 0;
+    max-width: 620px;
+    font-size: clamp(20px, 2.2vw, 28px);
+    line-height: 1.35;
+  }
+  .cs__meta {
+    margin: 16px 0 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--cs-line);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 32px;
+  }
+  .cs__meta dt {
+    margin-bottom: 6px;
+    font-size: 12px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--cs-ink2);
+  }
+  .cs__meta dd { margin: 0; font-size: 16px; line-height: 1.5; }
+  .cs__visual {
+    flex: 1 1 340px;
+    min-width: 0;
+    position: relative;
+    height: 660px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cs__glow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(440px, 100%);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--cs-glow);
+    transform: translate(-50%, -50%);
+  }
+  .cs__float {
+    position: relative;
+    animation: acyll-float 7s ease-in-out infinite;
+  }
+
+  .cs__context { border-top: 1px solid var(--cs-line); }
+  .cs__context-inner {
+    padding-block: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px 64px;
+  }
+  .cs__context h4 {
+    flex: 1 1 240px;
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.1;
+  }
+  .cs__context p {
+    flex: 999 1 520px;
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.65;
+    color: var(--cs-ink2);
+  }
+
+  .cs__challenge { background: var(--cs-panel); transition: background-color .7s ease; }
+  .cs__challenge-inner {
+    padding-block: 88px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .cs__challenge p {
+    margin: 0;
+    max-width: 980px;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: clamp(28px, 3.4vw, 46px);
+    line-height: 1.2;
+    letter-spacing: -.015em;
+  }
+
+  .cs__done {
+    padding-block: 88px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .cs__done > h4 {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.1;
+  }
+  .cs__done ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 32px;
+  }
+  .cs__done li {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 2px solid var(--cs-accent);
+  }
+  .cs__done-n { font-size: 14px; font-weight: 700; color: var(--cs-accent-text); }
+  .cs__done h5 {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.2;
+  }
+  .cs__done li p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--cs-ink2); }
+
+  .cs__facts {
+    padding-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .cs__facts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 16px;
+  }
+  .cs__fact {
+    padding: 28px;
+    border-radius: var(--radius-lg);
+    background: var(--cs-panel);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cs__fact-v {
+    font-family: var(--cs-title-font);
+    font-weight: var(--cs-title-weight);
+    font-size: 48px;
+    line-height: 1;
+  }
+  .cs__fact-l { font-size: 15px; line-height: 1.5; color: var(--cs-ink2); }
+  .cs__stack {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cs__stack li {
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--cs-line);
+    font-size: 14px;
+  }
+
+  .cs__end {
+    padding-bottom: 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .cs__cta {
+    padding: clamp(32px, 5vw, 64px);
+    border-radius: 24px;
+    background: var(--cs-accent);
+    color: var(--cs-on-accent);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .cs__cta-text { display: flex; flex-direction: column; gap: 8px; max-width: 620px; }
+  .cs__cta h4 {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1.1;
+  }
+  .cs__cta p { margin: 0; font-size: 17px; line-height: 1.6; }
+  .cs__cta a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 0 24px;
+    border-radius: var(--radius-md);
+    background: var(--cs-on-accent);
+    color: var(--cs-accent);
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  .cs__next {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    padding: 32px 0;
+    border: 0;
+    border-top: 1px solid var(--cs-line);
+    background: transparent;
+    color: var(--cs-ink);
+    text-align: left;
+    cursor: pointer;
+  }
+  .cs__next-label {
+    font-size: 13px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--cs-ink2);
+  }
+  .cs__next-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1;
+  }
+  .cs__next :global(svg) { transition: transform .3s ease; }
+  .cs__next:hover :global(svg) { transform: translateX(6px); }
+
+  @media (max-width: 600px) {
+    .cs__meta { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

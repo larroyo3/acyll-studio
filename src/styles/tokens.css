@@ -1,0 +1,66 @@
+/* Personal Branding Design System — repris de design-reference/ds/personal-branding/tokens.css */
+:root, [data-theme="default"] {
+  --color-background: #2f050b;
+  --color-background-raised: #3d0b13;
+  --color-background-sunken: #200307;
+  --color-primary: #9e001a;
+  --color-primary-hover: #c40020;
+  --color-primary-active: #7a0014;
+  --color-primary-muted: #4a0510;
+  --color-on-background: #fffcfc;
+  --color-on-background-secondary: #e8c9cc;
+  --color-on-background-muted: #a97f83;
+  --color-border: #5a1019;
+  --color-border-subtle: #43090f;
+  --surface-card: var(--color-background-raised);
+  --surface-overlay: #1a0204;
+  --text-primary: var(--color-on-background);
+  --text-secondary: var(--color-on-background-secondary);
+  --text-muted: var(--color-on-background-muted);
+  --text-accent: var(--color-primary-hover);
+  --color-background-light: #fffcfc;
+  --color-background-raised-light: #f7eced;
+  --color-background-sunken-light: #f0dfe0;
+  --color-on-background-light: #2f050b;
+  --color-on-background-secondary-light: #6a2b32;
+  --color-on-background-muted-light: #a97f83;
+  --color-border-light: #e3c7ca;
+  --color-border-subtle-light: #efdbdd;
+  --surface-card-light: var(--color-background-raised-light);
+  --text-primary-light: var(--color-on-background-light);
+  --text-secondary-light: var(--color-on-background-secondary-light);
+  --text-muted-light: var(--color-on-background-muted-light);
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.35);
+  --shadow-raised: 0 8px 32px rgba(0,0,0,0.45);
+}
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+  --font-title-weight: 700;
+  --font-body-weight: 400;
+  --text-display: 56px;
+  --text-h1: 40px;
+  --text-h2: 28px;
+  --text-h3: 22px;
+  --text-body-lg: 18px;
+  --text-body: 16px;
+  --text-small: 13px;
+  --leading-tight: 1.1;
+  --leading-normal: 1.5;
+  /* Hitch Hike et TAN Headline ne sont pas chargées en webfont : les mots de marque
+     sont vectorisés dans src/data/wordmarks.ts (voir le composant Wordmark). */
+  --font-title: 'Poppins', system-ui, sans-serif;
+  --font-body: 'Poppins', system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}

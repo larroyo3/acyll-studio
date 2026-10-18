@@ -1,0 +1,276 @@
+---
+// Maquette d'écran de téléphone pour chaque projet (illustration décorative).
+// Uniquement des <span> : le composant est aussi rendu à l'intérieur des cartes <button>.
+import type { ProjectId } from '../data/projects';
+
+interface Props {
+  app: ProjectId;
+}
+
+const { app } = Astro.props;
+
+const pattern = [2, 1, 3, 1, 2, 3, 1, 2, 1, 3, 2, 1];
+const bars = Array.from({ length: 42 }, (_, i) => ({
+  w: pattern[i % pattern.length],
+  c: i % 3 === 2 ? 'transparent' : '#0f2a3f',
+}));
+const pin =
+  '<path d="M12 21s-6-5.5-6-11a6 6 0 0112 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2"/>';
+const dictRows = [
+  { a: '78%', b: '48%', dot: '#f2b705' },
+  { a: '64%', b: '40%', dot: '#6cc28a' },
+  { a: '72%', b: '52%', dot: '#6b7682' },
+  { a: '58%', b: '44%', dot: '#f2b705' },
+  { a: '70%', b: '36%', dot: '#6cc28a' },
+];
+---
+
+<span class="device" aria-hidden="true">
+  <span class="screen">
+    {
+      app === 'kadanz' && (
+        <span style="display: flex; width: 100%; height: 100%; background: #f7f9fb; flex-direction: column; font-family: 'Jost', sans-serif; color: #0f2a3f;">
+          <span style="display: flex; background: #0f2a3f; padding: 54px 18px 48px; flex-direction: column; gap: 8px;">
+            <span style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #ffffff;">Kadanz</span>
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: #e3c489;">3 BILLETS</span>
+            </span>
+            <span style="font-size: 26px; font-weight: 300; color: #ffffff;">Mes objectifs</span>
+          </span>
+          <span style="margin: -32px 12px 0; background: #ffffff; border: 1px solid #dde6ed; border-radius: 18px; box-shadow: 0 8px 24px rgba(15,42,63,0.14); overflow: hidden; position: relative;">
+            <span style="height: 5px; background: #2e7d5b;" />
+            <span style="display: flex; padding: 12px 14px 4px; flex-direction: column; gap: 4px;">
+              <span style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.2em;">
+                <span style="color: #3e5567;">VOYAGE</span>
+                <span style="color: #2e7d5b;">DANS LE RYTHME</span>
+              </span>
+              <span style="font-size: 22px; font-weight: 300; line-height: 1.2;">Lisbonne en juin</span>
+              <svg viewBox="0 0 252 66" width="100%" height="62" style="display: block; overflow: visible;">
+                <path d="M8 58 Q126 -6 244 58" fill="none" stroke="#c9d8e3" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="0 6" />
+                <path d="M8 58 Q126 -6 244 58" fill="none" stroke="#2e7d5b" stroke-width="2.5" stroke-linecap="round" pathLength="100" stroke-dasharray="63 100" />
+                <circle cx="8" cy="58" r="4" fill="#2e7d5b" />
+                <circle cx="244" cy="58" r="4" fill="#ffffff" stroke="#c9d8e3" stroke-width="2" />
+                <rect x="134.3" y="13.8" width="7.4" height="25" rx="3.7" fill="#ffffff" />
+                <rect x="136.3" y="15.8" width="3.4" height="21" rx="1.7" fill="#0f2a3f" />
+                <circle cx="157" cy="28" r="13" fill="#ffffff" />
+                <path transform="translate(157 28) rotate(8)" d="M11 0 C11 -1.2 9.5 -1.6 8 -1.6 L2 -1.6 L-3 -10 L-6 -10 L-3.5 -1.6 L-8 -1.6 L-10.5 -5 L-12.5 -5 L-11 -1.2 L-11 1.2 L-12.5 5 L-10.5 5 L-8 1.6 L-3.5 1.6 L-6 10 L-3 10 L2 1.6 L8 1.6 C9.5 1.6 11 1.2 11 0 Z" fill="#2e7d5b" />
+              </svg>
+              <span style="display: flex; align-items: baseline; gap: 6px;">
+                <span style="font-size: 36px; font-weight: 200; line-height: 1;">1 840 €</span>
+                <span style="font-size: 15px; font-weight: 300; color: #3e5567;">/ 2 900 €</span>
+              </span>
+              <span style="display: flex; justify-content: space-between; padding-top: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 0.12em; color: #3e5567;">
+                <span>DEPUIS 12 JANV. 2026</span>
+                <span>DÉPART 4 JUIN 2027</span>
+              </span>
+              <span style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.14em;">
+                <span style="color: #3e5567;">63 %</span>
+                <span style="color: #2e7d5b;">PRÉVU 55 %</span>
+              </span>
+            </span>
+            <span style="position: relative; height: 22px;">
+              <span style="position: absolute; left: 16px; right: 16px; top: 10px; border-top: 1px dashed #c9d8e3;" />
+              <span style="position: absolute; left: -11px; top: 0; width: 22px; height: 22px; border-radius: 50%; background: #f7f9fb; border: 1px solid #dde6ed;" />
+              <span style="position: absolute; right: -11px; top: 0; width: 22px; height: 22px; border-radius: 50%; background: #f7f9fb; border: 1px solid #dde6ed;" />
+            </span>
+            <span style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 0 14px;">
+              {[
+                ['RESTE', '1 060 €'],
+                ['RYTHME', '152 €/mois'],
+                ['DÉPART DANS', '7 mois'],
+              ].map(([k, v]) => (
+                <span style="display: flex; flex-direction: column; gap: 2px;">
+                  <span style="font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 0.12em; color: #3e5567;">{k}</span>
+                  <span style="font-size: 15px; white-space: nowrap;">{v}</span>
+                </span>
+              ))}
+            </span>
+            <span style="display: flex; padding: 12px 14px 14px; flex-direction: column; gap: 4px;">
+              <span style="display: flex; gap: 1px; height: 24px;">
+                {bars.map((b) => (
+                  <span style={`flex: ${b.w} 1 0; background: ${b.c};`} />
+                ))}
+              </span>
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 0.2em; color: #3e5567;">KDZ-4JN27B</span>
+            </span>
+          </span>
+          <span style="margin-top: auto; padding: 14px 14px 22px;">
+            <span style="display: flex; height: 46px; border-radius: 8px; background: #c79a4b; color: #0f2a3f; align-items: center; justify-content: center; font-size: 15px; letter-spacing: 0.06em;">Ajouter une avancée</span>
+          </span>
+        </span>
+      )
+    }
+
+    {
+      app === 'musherr' && (
+        <span style="width: 100%; height: 100%; position: relative; background: #dfe9ee; color: #12212b;">
+          <svg viewBox="0 0 282 420" width="100%" height="420" style="position: absolute; left: 0; top: 0; display: block;">
+            <g fill="none" stroke="#c6d6de" stroke-width="1.2">
+              <ellipse cx="200" cy="140" rx="150" ry="96" />
+              <ellipse cx="200" cy="140" rx="108" ry="68" />
+              <ellipse cx="204" cy="138" rx="68" ry="42" />
+              <ellipse cx="208" cy="136" rx="30" ry="18" />
+              <ellipse cx="40" cy="340" rx="120" ry="70" />
+              <ellipse cx="36" cy="344" rx="70" ry="38" />
+            </g>
+            <path d="M52 380 C 80 320, 30 270, 96 236 S 190 214, 172 158 S 222 92, 236 70" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round" />
+            <path d="M52 380 C 80 320, 30 270, 96 236 S 190 214, 172 158 S 222 92, 236 70" fill="none" stroke="#c94a20" stroke-width="4" stroke-linecap="round" />
+            <circle cx="52" cy="380" r="6" fill="#ffffff" stroke="#c94a20" stroke-width="3" />
+            <circle cx="236" cy="70" r="16" fill="#c94a20" opacity="0.18" />
+            <circle cx="236" cy="70" r="7" fill="#c94a20" stroke="#ffffff" stroke-width="3" />
+          </svg>
+          <span style="position: absolute; left: 14px; right: 14px; top: 50px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: #ffffff; font-weight: 700; font-size: 13px; box-shadow: 0 4px 12px rgba(18,33,43,0.12);">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #c94a20;" />
+              Musherr
+            </span>
+            <span style="width: 36px; height: 36px; border-radius: 50%; background: #ffffff; box-shadow: 0 4px 12px rgba(18,33,43,0.12); display: flex; align-items: center; justify-content: center;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12212b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3l9 5-9 5-9-5 9-5z" />
+                <path d="M3 13l9 5 9-5" />
+              </svg>
+            </span>
+          </span>
+          <span style="position: absolute; left: 0; right: 0; bottom: 0; background: #ffffff; border-radius: 24px 24px 0 0; padding: 10px 16px 22px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 -8px 24px rgba(18,33,43,0.10);">
+            <span style="align-self: center; width: 36px; height: 4px; border-radius: 2px; background: #d6e3ea;" />
+            <span style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; font-size: 16px;">Suivi GPS</span>
+              <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: #a8381a;">EN DIRECT</span>
+            </span>
+            <span style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+              {[
+                ['Distance', '70%'],
+                ['Durée', '60%'],
+                ['Vitesse', '66%'],
+              ].map(([k, w]) => (
+                <span style="display: flex; flex-direction: column; gap: 6px;">
+                  <span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #3f5563;">{k}</span>
+                  <span style={`height: 14px; width: ${w}; border-radius: 4px; background: #e3ecf0;`} />
+                </span>
+              ))}
+            </span>
+            <span style="display: flex; height: 46px; border-radius: 12px; background: #c94a20; color: #ffffff; align-items: center; justify-content: center; font-weight: 700; font-size: 15px;">Démarrer</span>
+          </span>
+        </span>
+      )
+    }
+
+    {
+      app === 'dictfr' && (
+        <span style="width: 100%; height: 100%; position: relative; background: #1b2026; color: #ffffff; display: flex; flex-direction: column;">
+          <span style="padding: 54px 16px 12px; display: flex; flex-direction: column; gap: 14px;">
+            <span style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; font-size: 20px;">Dict.fr</span>
+              <span style="width: 32px; height: 32px; border-radius: 50%; background: #242b33;" />
+            </span>
+            <span style="height: 40px; border-radius: 10px; background: #242b33; display: flex; align-items: center; gap: 10px; padding: 0 12px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b9c2cc" stroke-width="1.8" stroke-linecap="round">
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20l-4-4" />
+              </svg>
+              <span style="height: 8px; width: 55%; border-radius: 4px; background: #3a434e;" />
+            </span>
+            <span style="display: flex; gap: 8px;">
+              <span style="height: 28px; width: 72px; border-radius: 999px; background: #f2b705;" />
+              <span style="height: 28px; width: 64px; border-radius: 999px; border: 1px solid #3a434e;" />
+              <span style="height: 28px; width: 58px; border-radius: 999px; border: 1px solid #3a434e;" />
+            </span>
+          </span>
+          <span style="padding: 0 16px; display: flex; flex-direction: column;">
+            {dictRows.map((row, i) => (
+              <span style={`display: flex; align-items: center; gap: 12px; padding: 12px 0;${i < dictRows.length - 1 ? ' border-bottom: 1px solid rgba(255,255,255,0.08);' : ''}`}>
+                <span style="width: 38px; height: 38px; border-radius: 10px; background: #242b33; display: flex; align-items: center; justify-content: center;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f2b705" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={pin} />
+                </span>
+                <span style="flex: 1; display: flex; flex-direction: column; gap: 7px;">
+                  <span style={`height: 9px; width: ${row.a}; border-radius: 4px; background: #4a545f;`} />
+                  <span style={`height: 7px; width: ${row.b}; border-radius: 4px; background: #323a44;`} />
+                </span>
+                <span style={`width: 10px; height: 10px; border-radius: 50%; background: ${row.dot};`} />
+              </span>
+            ))}
+          </span>
+          <span style="position: absolute; right: 18px; bottom: 22px; width: 56px; height: 56px; border-radius: 18px; background: #f2b705; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.35);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b2026" stroke-width="2.2" stroke-linecap="round">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+          </span>
+        </span>
+      )
+    }
+
+    {
+      app === 'thurii' && (
+        <span style="width: 100%; height: 100%; background: #123a2c; color: #f3f7ef; display: flex; flex-direction: column; gap: 12px; padding: 54px 14px 20px;">
+          <span style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: 700; font-size: 20px;">Thurii</span>
+            <span style="padding: 6px 10px; border-radius: 999px; background: #1a4a39; font-size: 11px; font-weight: 700; color: #8fd694;">Rando</span>
+          </span>
+          <span style="height: 250px; border-radius: 20px; background: #1a4a39; overflow: hidden;">
+            <svg viewBox="0 0 254 250" width="100%" height="250" style="display: block;">
+              <g fill="none" stroke="#245c47" stroke-width="1.2">
+                <ellipse cx="170" cy="70" rx="130" ry="80" />
+                <ellipse cx="172" cy="68" rx="90" ry="54" />
+                <ellipse cx="176" cy="66" rx="52" ry="30" />
+                <ellipse cx="60" cy="210" rx="110" ry="60" />
+                <ellipse cx="56" cy="214" rx="62" ry="32" />
+              </g>
+              <path d="M24 220 C 60 200, 50 160, 92 150 S 150 120, 138 86 S 190 40, 226 30" fill="none" stroke="#8fd694" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="1 8" />
+              <circle cx="24" cy="220" r="6" fill="#f3f7ef" />
+              <path d="M226 30 L226 8 L242 14 L226 20" fill="#8fd694" stroke="#8fd694" stroke-width="2" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <span style="border-radius: 20px; background: #f3f7ef; color: #123a2c; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+            <span style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; font-size: 13px;">Dénivelé</span>
+              <span style="height: 8px; width: 60px; border-radius: 4px; background: #d5e3d8;" />
+            </span>
+            <svg viewBox="0 0 226 70" width="100%" height="70" style="display: block;">
+              <path d="M0 62 L18 54 L34 58 L52 40 L70 44 L92 22 L112 30 L130 12 L150 20 L170 34 L190 28 L210 46 L226 50 L226 70 L0 70 Z" fill="#cfe5d3" />
+              <path d="M0 62 L18 54 L34 58 L52 40 L70 44 L92 22 L112 30 L130 12 L150 20 L170 34 L190 28 L210 46 L226 50" fill="none" stroke="#2f7d55" stroke-width="2" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <span style="margin-top: auto; height: 46px; border-radius: 14px; background: #8fd694; color: #123a2c; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px;">Commencer la rando</span>
+        </span>
+      )
+    }
+
+    <span class="notch"></span>
+  </span>
+</span>
+
+<style>
+  .device {
+    display: block;
+    width: 300px;
+    height: 620px;
+    padding: 9px;
+    border-radius: 48px;
+    background: #0d0d10;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, .35), inset 0 0 0 1.5px #2a2a30;
+    position: relative;
+    font-family: var(--font-body);
+    color: #12212b;
+    text-align: left;
+  }
+  .screen {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 39px;
+    overflow: hidden;
+    position: relative;
+  }
+  /* Les <span> de la maquette jouent le rôle de <div>. */
+  .screen :global(span) { display: block; }
+  .notch {
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    width: 88px;
+    height: 26px;
+    margin-left: -44px;
+    border-radius: 13px;
+    background: #0d0d10;
+  }
+</style>

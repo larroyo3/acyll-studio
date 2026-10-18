@@ -1,0 +1,99 @@
+---
+import { stats, steps } from '../data/content';
+---
+
+<section id="process" class="container process section-stack">
+  <div class="section-head reveal">
+    <div class="section-head__text">
+      <span class="eyebrow">Méthode</span>
+      <h2 class="h2">De l’idée à l’app publiée, en quatre étapes</h2>
+    </div>
+    <p class="lead">Un cadre clair, des livraisons régulières, et aucune mauvaise surprise sur le planning ni sur le budget.</p>
+  </div>
+  <div class="draw process__line" aria-hidden="true"></div>
+  <ol class="process__steps">
+    {
+      steps.map((step, i) => (
+        <li class="card tile reveal step">
+          <div class="step__top">
+            <span class="step__n">{String(i + 1).padStart(2, '0')}</span>
+            <span class:list={['pill', step.solid ? 'pill--solid' : 'pill--line']}>{step.badge}</span>
+          </div>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<section aria-label="Chiffres clés" class="container stats">
+  <dl class="stats__grid reveal">
+    {
+      stats.map((stat) => (
+        <div class="stat">
+          <dt>{stat.label}</dt>
+          <dd>{stat.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</section>
+
+<style>
+  .process { padding-block: 120px 40px; }
+  .process__line { height: 2px; background: var(--color-primary-hover); }
+  .process__steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    gap: 16px;
+  }
+  .step {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .step__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .step__n {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--text-muted);
+  }
+  .step h3 { margin: 0; font-family: var(--font-title); font-weight: 700; font-size: 21px; }
+  .step p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text-secondary); }
+
+  .stats { padding-block: 48px; }
+  .stats__grid {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 1px;
+    border-radius: 28px;
+    border: 1px solid var(--color-border);
+    background: var(--color-border);
+    overflow: hidden;
+  }
+  .stat {
+    padding: 32px;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 8px;
+    background: var(--color-background-sunken);
+  }
+  .stat dd {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -.03em;
+  }
+  .stat dt { font-size: 15px; line-height: 1.5; color: var(--text-secondary); }
+</style>

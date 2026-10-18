@@ -1,0 +1,120 @@
+---
+import Icon from './Icon.astro';
+import { offers, pricingNote } from '../data/content';
+---
+
+<section id="tarifs" class="container pricing section-stack">
+  <div class="pricing__head reveal">
+    <span class="eyebrow">Offres</span>
+    <h2 class="h2">Une formule pour chaque étape de votre projet</h2>
+    <p class="lead">
+      Chaque projet est unique : ces formules sont un point de départ. Le devis final est toujours détaillé et adapté à
+      votre besoin.
+    </p>
+  </div>
+
+  <div class="pricing__grid">
+    {
+      offers.map((offer) => (
+        <article class:list={['price reveal', offer.featured ? 'price--featured' : 'card']}>
+          {offer.featured && <span class="price__badge">Recommandé</span>}
+          <div class="price__head">
+            <h3>{offer.title}</h3>
+            <p>{offer.subtitle}</p>
+          </div>
+          <div class="price__amount">
+            {offer.prefix && <span class="price__soft">{offer.prefix}</span>}
+            <span class="price__value">{offer.price}</span>
+            {offer.suffix && <span class="price__soft">{offer.suffix}</span>}
+          </div>
+          <ul class="check-list price__list">
+            {offer.items.map((item) => (
+              <li>
+                <Icon name="check" size={18} />
+                {item}
+              </li>
+            ))}
+          </ul>
+          <a class:list={['btn', offer.featured ? 'btn--light' : 'btn--ghost']} href="#contact">
+            {offer.cta}
+            {offer.featured && <Icon name="arrow-right" size={18} class="arr" />}
+          </a>
+        </article>
+      ))
+    }
+  </div>
+  <p class="pricing__note reveal">{pricingNote}</p>
+</section>
+
+<style>
+  .pricing { padding-block: 104px 32px; }
+  .pricing__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+  .pricing__head .eyebrow { align-self: center; }
+  .pricing__head .h2 { max-width: 760px; }
+  .pricing__head .lead { max-width: 560px; }
+
+  .pricing__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 16px;
+    align-items: stretch;
+  }
+  .price {
+    position: relative;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: transform .45s cubic-bezier(.2, .7, .2, 1), box-shadow .45s ease;
+    --price-soft: var(--text-secondary);
+    --price-line: var(--color-border);
+  }
+  .price:hover { transform: translateY(-8px); box-shadow: var(--shadow-raised); }
+  .price--featured {
+    border-radius: 28px;
+    background: var(--color-primary);
+    box-shadow: var(--shadow-raised);
+    --price-soft: var(--color-on-background-secondary);
+    --price-line: rgba(255, 252, 252, .35);
+  }
+  .price__badge {
+    position: absolute;
+    top: -13px;
+    right: 24px;
+    padding: 5px 12px;
+    border-radius: var(--radius-pill);
+    background: var(--color-on-background);
+    color: var(--color-primary);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .price__head { display: flex; flex-direction: column; gap: 8px; }
+  .price__head h3 { margin: 0; font-family: var(--font-title); font-weight: 700; font-size: 22px; }
+  .price__head p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--price-soft); }
+  .price__amount { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+  .price__soft { font-size: 14px; color: var(--price-soft); }
+  .price__value {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+  .price__list {
+    padding-top: 20px;
+    border-top: 1px solid var(--price-line);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 15px;
+  }
+  .price .btn { margin-top: auto; }
+
+  .pricing__note { margin: 0; text-align: center; font-size: 14px; color: var(--text-muted); }
+</style>

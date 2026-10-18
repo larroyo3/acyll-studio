@@ -1,0 +1,135 @@
+---
+import Wordmark from './Wordmark.astro';
+import { site } from '../data/site';
+import { external, withBase } from '../lib/url';
+
+interface Props {
+  /** Préfixe des ancres : vide sur l'accueil, URL de l'accueil sur les autres pages. */
+  home?: string;
+}
+
+const { home = '' } = Astro.props;
+const year = new Date().getFullYear();
+const sitemap = [
+  { id: 'work', label: 'Réalisations' },
+  { id: 'services', label: 'Services' },
+  { id: 'avis', label: 'Avis clients' },
+  { id: 'process', label: 'Méthode' },
+  { id: 'tarifs', label: 'Tarifs' },
+  { id: 'faq', label: 'FAQ' },
+];
+const services = ['Création d’application', 'Kotlin Multiplatform', 'Reprise et maintenance', 'Conseil et renfort'];
+const contact = [
+  { href: site.calendly, label: 'Réserver un appel' },
+  { href: site.linkedin, label: 'LinkedIn' },
+  { href: site.github, label: 'GitHub' },
+  { href: site.malt, label: 'Malt' },
+];
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__cols">
+      <div class="footer__brand">
+        <span class="footer__logo">
+          <Wordmark name="acyll" label="Acyll" />
+          <span class="footer__studio">Studio</span>
+        </span>
+        <p>
+          Studio de développement d’applications mobiles Android et iOS, basé à {site.city}. Création, reprise et
+          accompagnement de projets mobiles.
+        </p>
+        <span class="footer__status"><span class="dot a-pulse"></span>Disponible pour de nouveaux projets</span>
+      </div>
+      <nav class="footer__col" aria-label="Plan du site">
+        <span class="footer__title">Navigation</span>
+        {sitemap.map((link) => <a class="nav-link" href={`${home}#${link.id}`}>{link.label}</a>)}
+      </nav>
+      <nav class="footer__col footer__col--services" aria-label="Services">
+        <span class="footer__title">Services</span>
+        {services.map((label) => <a class="nav-link" href={`${home}#services`}>{label}</a>)}
+      </nav>
+      <nav class="footer__col footer__col--contact" aria-label="Contact">
+        <span class="footer__title">Contact</span>
+        {contact.map((link) => <a class="nav-link" href={link.href} {...external}>{link.label}</a>)}
+      </nav>
+    </div>
+
+    <div class="footer__giant">
+      <Wordmark name="acyllStudio" fit />
+    </div>
+
+    <div class="footer__bottom">
+      <span>© {year} {site.name} · {site.owner}, entrepreneur individuel · SIRET {site.siret}</span>
+      <span class="footer__legal">
+        <a class="nav-link" href={withBase('/mentions-legales/')}>Mentions légales</a>
+        <a class="nav-link" href={withBase('/confidentialite/')}>Politique de confidentialité</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-background);
+    border-radius: 40px 40px 0 0;
+  }
+  .footer__inner {
+    padding-block: 72px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .footer__cols { display: flex; flex-wrap: wrap; gap: 40px 64px; }
+  .footer__brand {
+    flex: 999 1 320px;
+    min-width: 0;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .footer__logo { display: flex; align-items: baseline; gap: 10px; font-size: 44px; }
+  .footer__studio {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+  .footer__brand p { margin: 0; font-size: 15px; line-height: 1.65; color: var(--text-secondary); }
+  .footer__status { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; }
+
+  .footer__col {
+    flex: 1 1 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 15px;
+  }
+  .footer__col--services { flex-basis: 180px; }
+  .footer__col--contact { flex-basis: 160px; }
+  .footer__col .nav-link { align-self: flex-start; }
+  .footer__title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .footer__giant { color: var(--color-primary-muted); }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border);
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .footer__legal { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+</style>

@@ -1,0 +1,95 @@
+---
+import Icon from './Icon.astro';
+import { faq } from '../data/content';
+import { site } from '../data/site';
+import { external } from '../lib/url';
+---
+
+<section id="faq" class="container faq-section">
+  <div class="faq-section__intro reveal">
+    <span class="eyebrow">FAQ</span>
+    <h2 class="h2">Questions fréquentes</h2>
+    <p>Vous ne trouvez pas votre réponse ? Posez-la directement pendant l’appel découverte.</p>
+    <a class="btn btn--sm btn--primary" href={site.calendly} {...external}>Poser ma question</a>
+  </div>
+  <div class="faq-section__list">
+    {
+      faq.map((item, i) => (
+        <details class="faq reveal" open={i === 0}>
+          <summary>
+            {item.q}
+            <span class="faq__plus" aria-hidden="true">
+              <Icon name="plus" size={16} />
+            </span>
+          </summary>
+          <div class="faq__body">{item.a}</div>
+        </details>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    padding-block: 104px 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px 64px;
+  }
+  .faq-section__intro {
+    flex: 1 1 320px;
+    min-width: 0;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .faq-section__intro .h2 { font-size: clamp(32px, 4vw, 48px); }
+  .faq-section__intro p { margin: 0; font-size: 16px; line-height: 1.65; color: var(--text-secondary); }
+  .faq-section__intro .btn { align-self: flex-start; }
+  .faq-section__list {
+    flex: 999 1 560px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .faq {
+    border-radius: 20px;
+    background: var(--surface-card);
+    border: 1px solid var(--color-border-subtle);
+  }
+  .faq[open] { border-color: var(--color-on-background-muted); }
+  .faq summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 24px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 17px;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq__plus {
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--color-on-background-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .4s cubic-bezier(.2, .7, .2, 1), background-color .3s ease;
+  }
+  .faq[open] .faq__plus { transform: rotate(45deg); background: var(--color-primary); }
+  .faq__body {
+    padding: 0 24px 22px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+  .faq[open] .faq__body { animation: acyll-rise .45s cubic-bezier(.2, .7, .2, 1) both; }
+</style>

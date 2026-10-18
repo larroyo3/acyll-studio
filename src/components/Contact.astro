@@ -1,0 +1,340 @@
+---
+import Icon from './Icon.astro';
+import Wordmark from './Wordmark.astro';
+import { budgets, projectTypes } from '../data/content';
+import { site } from '../data/site';
+import { external, withBase } from '../lib/url';
+
+const links = [
+  { href: `mailto:${site.email}`, label: site.email, mail: true },
+  { href: site.linkedin, label: 'LinkedIn' },
+  { href: site.malt, label: 'Malt' },
+];
+---
+
+<section id="contact" class="container contact">
+  <div class="bento contact__grid">
+    <div class="contact__intro reveal">
+      <Wordmark name="lucas" class="contact__mark" />
+      <h2>Parlons de votre projet.</h2>
+      <p>
+        Réservez un appel de 30 minutes ou écrivez-moi. Vous repartez avec un premier avis concret sur votre projet,
+        sans engagement.
+      </p>
+      <a class="btn btn--light" href={site.calendly} {...external}>
+        Réserver un appel
+        <Icon name="arrow-right" size={18} class="arr" />
+      </a>
+      <nav class="contact__links" aria-label="Me contacter">
+        {
+          links.map((link) => (
+            <a class:list={['contact__link', { 'contact__link--mail': link.mail }]} href={link.href} {...(link.mail ? {} : external)}>
+              {link.label}
+              <Icon name="arrow-up-right" size={20} />
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+
+    <div class="card reveal contact__panel">
+      <form class="contact__form" data-contact-form>
+        <h3>Décrivez votre projet</h3>
+        <div class="contact__row">
+          <div class="field-group">
+            <label for="f-name">Nom</label>
+            <input id="f-name" class="field" type="text" name="name" autocomplete="name" required placeholder="Votre nom" />
+          </div>
+          <div class="field-group">
+            <label for="f-mail">Email</label>
+            <input id="f-mail" class="field" type="email" name="email" autocomplete="email" required placeholder="vous@entreprise.fr" />
+          </div>
+        </div>
+        <div class="contact__row">
+          <div class="field-group">
+            <label for="f-type">Type de projet</label>
+            <select id="f-type" class="field" name="project_type">
+              {projectTypes.map((type) => <option>{type}</option>)}
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="f-budget">Budget estimé</label>
+            <select id="f-budget" class="field" name="budget">
+              {budgets.map((budget) => <option>{budget}</option>)}
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="f-msg">Votre projet</label>
+          <textarea
+            id="f-msg"
+            class="field"
+            name="message"
+            rows="5"
+            placeholder="Quelques mots sur votre idée, vos utilisateurs, vos délais…"></textarea>
+        </div>
+        <div class="contact__trap" aria-hidden="true">
+          <label for="f-website">Ne pas remplir</label>
+          <input id="f-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <label class="contact__consent">
+          <input type="checkbox" name="consent" value="oui" required />
+          <span>
+            J’accepte que mes informations soient utilisées pour être recontacté au sujet de mon projet (voir la
+            <a href={withBase('/confidentialite/')}>politique de confidentialité</a>).
+          </span>
+        </label>
+        <p class="contact__error" role="alert" data-contact-error hidden>
+          L’envoi n’a pas abouti. Réessayez dans un instant, ou écrivez-moi directement à
+          <a href={`mailto:${site.email}`}>{site.email}</a>.
+        </p>
+        <button type="submit" class="btn btn--primary contact__submit">
+          <span data-submit-label>Envoyer ma demande</span>
+          <Icon name="arrow-right" size={18} class="arr" />
+        </button>
+      </form>
+
+      <div class="contact__success cs-in" role="status" tabindex="-1" data-contact-success hidden>
+        <span class="contact__success-icon"><Icon name="check" size={32} /></span>
+        <h3>Merci, votre demande est envoyée.</h3>
+        <p>Je reviens vers vous très vite. En attendant, vous pouvez réserver directement un créneau d’appel.</p>
+        <button type="button" class="contact__again" data-contact-reset>Envoyer une autre demande</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact { padding-block: 104px 96px; }
+  .contact__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .contact__intro {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(32px, 4vw, 56px);
+    border-radius: 28px;
+    background: var(--color-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .contact__intro > * { position: relative; }
+  .contact__intro :global(.contact__mark) {
+    --wm-size: 160px;
+    position: absolute;
+    right: -16px;
+    bottom: 0;
+    color: var(--color-primary-hover);
+    transform: rotate(-8deg);
+    pointer-events: none;
+  }
+  .contact__intro h2 {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: clamp(36px, 4.6vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -.03em;
+  }
+  .contact__intro p {
+    margin: 0;
+    max-width: 440px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--color-on-background-secondary);
+  }
+  .contact__intro .btn { align-self: flex-start; }
+  .contact__links {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(255, 252, 252, .35);
+  }
+  .contact__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 56px;
+    padding: 0 4px;
+    border-bottom: 1px solid rgba(255, 252, 252, .2);
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color .3s ease;
+  }
+  .contact__link:last-child { border-bottom: 0; }
+  .contact__link--mail { word-break: break-all; }
+  .contact__link:hover { background: var(--color-primary-muted); }
+  .contact__link :global(svg) { flex: 0 0 auto; transition: transform .3s ease; }
+  .contact__link:hover :global(svg) { transform: rotate(45deg); }
+
+  .contact__panel { padding: clamp(28px, 4vw, 48px); }
+  .contact__form { display: flex; flex-direction: column; gap: 18px; }
+  .contact__form[hidden] { display: none; }
+  .contact__form h3,
+  .contact__success h3 { margin: 0; font-family: var(--font-title); font-weight: 700; font-size: 24px; }
+  .contact__row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: 16px;
+  }
+  .field-group { display: flex; flex-direction: column; gap: 8px; }
+  .field-group label { font-size: 14px; font-weight: 700; }
+  .field {
+    height: 50px;
+    padding: 0 16px;
+    border-radius: 14px;
+    border: 1px solid var(--color-on-background-muted);
+    background: var(--color-background-sunken);
+    color: var(--text-primary);
+    font-size: 15px;
+    transition: border-color .25s ease, box-shadow .25s ease;
+  }
+  select.field { padding: 0 12px; }
+  textarea.field { height: auto; padding: 14px 16px; line-height: 1.5; resize: vertical; }
+  .field::placeholder { color: var(--text-muted); }
+  .field:focus {
+    outline: none;
+    border-color: #fffcfc;
+    box-shadow: 0 0 0 3px rgba(255, 252, 252, .18);
+  }
+  .contact__trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .contact__consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+  .contact__consent input {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin: 1px 0 0;
+    accent-color: #9e001a;
+  }
+  .contact__error {
+    margin: 0;
+    padding: 12px 16px;
+    border-radius: 14px;
+    background: var(--color-primary-muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .contact__submit { min-height: 54px; }
+  .contact__submit:disabled { opacity: .7; cursor: progress; transform: none; }
+
+  .contact__success {
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+    outline: none;
+  }
+  .contact__success[hidden] { display: none; }
+  .contact__success h3 { font-size: 26px; }
+  .contact__success p {
+    margin: 0;
+    max-width: 360px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+  .contact__success-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .contact__again {
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-on-background-muted);
+    background: transparent;
+    color: var(--text-primary);
+    font-weight: 700;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  import emailjs from '@emailjs/browser';
+
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const success = document.querySelector<HTMLElement>('[data-contact-success]');
+  const error = document.querySelector<HTMLElement>('[data-contact-error]');
+  const reset = document.querySelector<HTMLButtonElement>('[data-contact-reset]');
+
+  const serviceId = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID;
+  const templateId = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
+  const publicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY;
+
+  if (form && success && error && reset) {
+    const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const label = submit.querySelector<HTMLElement>('[data-submit-label]')!;
+    const idleLabel = label.textContent;
+
+    const setSending = (sending: boolean) => {
+      submit.disabled = sending;
+      label.textContent = sending ? 'Envoi en cours…' : idleLabel;
+    };
+
+    const showSuccess = () => {
+      form.reset();
+      form.hidden = true;
+      success.hidden = false;
+      success.focus();
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      error.hidden = true;
+
+      // Champ piège invisible : seuls les robots le remplissent.
+      if ((form.elements.namedItem('website') as HTMLInputElement).value) {
+        showSuccess();
+        return;
+      }
+
+      if (!serviceId || !templateId || !publicKey) {
+        console.warn('EmailJS n’est pas configuré : renseignez les variables PUBLIC_EMAILJS_* (voir .env.example).');
+        error.hidden = false;
+        return;
+      }
+
+      setSending(true);
+      try {
+        await emailjs.sendForm(serviceId, templateId, form, {
+          publicKey,
+          limitRate: { id: 'acyll-contact', throttle: 10000 },
+        });
+        showSuccess();
+      } catch (err) {
+        console.error('EmailJS :', err);
+        error.hidden = false;
+      } finally {
+        setSending(false);
+      }
+    });
+
+    reset.addEventListener('click', () => {
+      success.hidden = true;
+      form.hidden = false;
+      form.querySelector<HTMLInputElement>('input[name="name"]')?.focus();
+    });
+  }
+</script>

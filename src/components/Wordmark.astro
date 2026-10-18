@@ -1,0 +1,45 @@
+---
+// Mot de marque vectorisé (voir src/data/wordmarks.ts). La taille se règle comme une police,
+// via `--wm-size` (par défaut 1em). Le bas du SVG correspond à la ligne de base : les jambages
+// (le « y » de Acyll) débordent en dessous, comme du texte.
+// `fit` cadre au plus près du tracé et remplit la largeur disponible.
+import { wordmarks, type WordmarkName } from '../data/wordmarks';
+
+interface Props {
+  name: WordmarkName;
+  label?: string;
+  fit?: boolean;
+  class?: string;
+}
+
+const { name, label, fit = false, class: className } = Astro.props;
+const w = wordmarks[name];
+const [x, y, width, height] = w.ink;
+const viewBox = fit ? `${x} ${y} ${width} ${height}` : `0 ${-w.ascent} ${w.advance} ${w.ascent}`;
+---
+
+<svg
+  class:list={['wordmark', { 'wordmark--fit': fit }, className]}
+  viewBox={viewBox}
+  style={fit ? undefined : `--wm-h: ${w.ascent / w.upm}; aspect-ratio: ${w.advance} / ${w.ascent};`}
+  fill="currentColor"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  <path d={w.d}></path>
+</svg>
+
+<style>
+  .wordmark {
+    display: block;
+    flex: 0 0 auto;
+    height: calc(var(--wm-size, 1em) * var(--wm-h));
+    width: auto;
+    overflow: visible;
+  }
+  .wordmark--fit {
+    width: 100%;
+    height: auto;
+  }
+</style>

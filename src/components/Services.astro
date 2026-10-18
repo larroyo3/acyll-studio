@@ -1,0 +1,81 @@
+---
+import Icon from './Icon.astro';
+import { services } from '../data/content';
+---
+
+<section id="services" class="container services section-stack">
+  <div class="section-head reveal">
+    <div class="section-head__text">
+      <span class="eyebrow">Services</span>
+      <h2 class="h2">Tout ce qu’il faut pour lancer et faire vivre votre app</h2>
+    </div>
+    <p class="lead">
+      Une app neuve, une app existante à reprendre ou un renfort dans votre équipe : choisissez le format qui vous
+      correspond.
+    </p>
+  </div>
+
+  <div class="services__grid">
+    {
+      services.map((service, i) => (
+        <article class="card tile reveal service">
+          <div class="service__top">
+            <span class="ico service__ico">
+              <Icon name={service.icon} size={26} />
+            </span>
+            <span class="service__n">{String(i + 1).padStart(2, '0')}</span>
+          </div>
+          <h3>{service.title}</h3>
+          <p>{service.text}</p>
+          <ul class="check-list service__list">
+            {service.items.map((item) => (
+              <li>
+                <Icon name="check" size={16} />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .services { padding-block: 88px 32px; }
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr));
+    gap: 16px;
+  }
+  .service {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .service__top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .service__ico { width: 56px; height: 56px; }
+  .service__n { font-size: 14px; font-weight: 700; color: var(--text-muted); }
+  .service h3 {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.2;
+  }
+  .service p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--text-secondary); }
+  .service__list {
+    padding-top: 18px;
+    border-top: 1px solid var(--color-border);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 16px;
+    font-size: 14px;
+  }
+  .service__list li { gap: 8px; }
+
+  @media (max-width: 420px) {
+    .service__list { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

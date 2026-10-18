@@ -1,0 +1,177 @@
+---
+import AppPhone from './AppPhone.astro';
+import Icon from './Icon.astro';
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+}
+
+const { project: p } = Astro.props;
+const ids = { name: `card-${p.id}-name`, summary: `card-${p.id}-summary`, cta: `card-${p.id}-cta` };
+const vars = [
+  `--card-bg: ${p.theme.bg}`,
+  `--card-ink: ${p.theme.ink}`,
+  `--card-ink2: ${p.theme.ink2}`,
+  `--card-accent: ${p.theme.accentText}`,
+  `--card-icon: ${p.card.iconBg}`,
+  `--card-screen: ${p.card.screen}`,
+  `--card-chip: ${p.card.chipLine}`,
+].join('; ');
+const nameStyle = `font-family: ${p.title.font}; font-weight: ${p.title.weight}; font-size: ${p.title.cardSize}px; letter-spacing: ${p.title.cardTracking};`;
+---
+
+<button
+  type="button"
+  class="app-card"
+  style={vars}
+  data-project={p.id}
+  aria-pressed="false"
+  aria-controls={`etude-${p.id}`}
+  aria-labelledby={`${ids.cta} ${ids.name}`}
+  aria-describedby={ids.summary}
+>
+  <span class="app-card__body">
+    <span class="app-card__meta">
+      <span class="app-card__icon">
+        {
+          p.id === 'kadanz' && (
+            <svg width="44" height="44" viewBox="0 0 56 56" aria-hidden="true">
+              <rect x="10" y="15" width="36" height="26" rx="5" fill="#c79a4b" />
+              <circle cx="37" cy="15" r="3" fill="#163852" />
+              <circle cx="37" cy="41" r="3" fill="#163852" />
+              <path d="M18 21v14M18 28.5l7-7.5M20.2 26.4l5.8 8.6" fill="none" stroke="#0f2a3f" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          )
+        }
+        {
+          p.id === 'musherr' && (
+            <svg width="44" height="44" viewBox="0 0 56 56" aria-hidden="true">
+              <path d="M15 41 C 23 32, 17 26, 27 23 S 39 19, 41 14" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+              <circle cx="15" cy="41" r="3.5" fill="#ffffff" />
+              <circle cx="41" cy="14" r="5" fill="none" stroke="#ffffff" stroke-width="2.5" />
+            </svg>
+          )
+        }
+        {
+          p.id === 'dictfr' && (
+            <svg width="44" height="44" viewBox="0 0 56 56" aria-hidden="true">
+              <path d="M28 44s-11-9.5-11-19a11 11 0 0 1 22 0c0 9.5-11 19-11 19z" fill="none" stroke="#f2b705" stroke-width="3" stroke-linejoin="round" />
+              <circle cx="28" cy="25" r="4" fill="#f2b705" />
+            </svg>
+          )
+        }
+        {
+          p.id === 'thurii' && (
+            <svg width="44" height="44" viewBox="0 0 56 56" aria-hidden="true">
+              <path d="M9 41 L22 22 L30 32 L36 25 L47 41 Z" fill="#8fd694" />
+              <circle cx="40" cy="15" r="4" fill="#f3f7ef" />
+            </svg>
+          )
+        }
+      </span>
+      <span class="app-card__label"><span>{p.label[0]}</span><span>{p.label[1]}</span></span>
+    </span>
+    <span class="app-card__name" id={ids.name} style={nameStyle}>{p.name}</span>
+    <span class="app-card__summary" id={ids.summary}>{p.summary}</span>
+    <span class="app-card__foot">
+      <span class="app-card__chips">{p.chips.map((chip) => <span>{chip}</span>)}</span>
+      <span class="app-card__cta" id={ids.cta}>Étude de cas <Icon name="arrow-right" size={16} stroke={2} class="go" /></span>
+    </span>
+  </span>
+  <span class="app-card__screen" aria-hidden="true">
+    <span class="app-card__phone"><span class="phone"><AppPhone app={p.id} /></span></span>
+  </span>
+</button>
+
+<style>
+  .app-card {
+    width: min(360px, calc(100vw - 48px));
+    height: 580px;
+    padding: 0;
+    border: 0;
+    border-radius: 28px;
+    background: var(--card-bg);
+    color: var(--card-ink);
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .app-card__body {
+    padding: 24px 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .app-card__meta { display: flex; align-items: center; gap: 12px; }
+  .app-card__icon {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--card-icon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .app-card__label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--card-ink2);
+  }
+  .app-card__name { line-height: 1; }
+  .app-card__summary {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--card-ink2);
+    min-height: 45px;
+  }
+  .app-card__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .app-card__chips { display: flex; gap: 6px; }
+  .app-card__chips span {
+    padding: 5px 10px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--card-chip);
+    font-size: 12px;
+  }
+  .app-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--card-accent);
+    white-space: nowrap;
+  }
+  .app-card__screen {
+    position: relative;
+    flex: 1;
+    margin: 20px 14px 14px;
+    border-radius: 20px;
+    background: var(--card-screen);
+    overflow: hidden;
+  }
+  .app-card__phone {
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    width: 300px;
+    height: 620px;
+    margin-left: -150px;
+    transform: scale(.82);
+    transform-origin: top center;
+  }
+  .phone { display: block; }
+</style>

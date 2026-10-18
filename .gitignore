@@ -1,0 +1,20 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+
+# environment variables
+.env
+.env.*
+!.env.example
+
+# maquette d'origine (référence locale, contient le runtime de l'outil de design)
+design-reference/
+
+# macOS
+.DS_Store
