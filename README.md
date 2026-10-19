@@ -4,6 +4,31 @@ Site vitrine d’Acyll Studio, studio de développement mobile Android et iOS.
 
 En ligne : **https://larroyo3.github.io/acyll-studio/**
 
+## Reste à faire
+
+**Formulaire de contact**
+- [ ] Créer le template EmailJS et ajouter les 3 secrets au repo (voir [Formulaire de contact](#formulaire-de-contact-emailjs)). D’ici là, le formulaire affiche un message invitant à écrire par email.
+
+**Contenu à compléter** (valeurs entre crochets, visibles en ligne)
+- [ ] `src/data/site.ts` : `siret`, `missions` (nombre de missions, affiché dans les chiffres clés et la carte Malt)
+- [ ] `src/data/content.ts` :
+  - [ ] `clients` : remplacer les 3 « [Logo client] »
+  - [ ] `testimonials` : les 5 avis Malt (citation, prénom, mission)
+  - [ ] `offers` : les prix des 3 formules et la durée du support (« [X] mois »)
+  - [ ] `pricingNote` : le délai de devis (« [X] jours »)
+  - [ ] `faq` : la réponse à « À qui appartient le code de mon application ? »
+- [ ] Choisir l’email de contact dans `src/data/site.ts` : `lucas.arroyo70@gmail.com` (actuel, repris de la maquette) ou `acyll.studios@gmail.com` (celui du portfolio)
+
+**Pages légales**
+- [ ] `src/pages/mentions-legales.astro` : adresse du siège (le SIRET vient de `site.ts`)
+- [ ] Relire les deux pages légales, notamment la durée de conservation des données (3 ans) dans `src/pages/confidentialite.astro`
+- [ ] Ajouter un lien « CGV » dans `src/components/Footer.astro` quand elles existeront (retiré en attendant)
+
+**Plus tard (optionnel)**
+- [ ] Passer sur un domaine perso (voir [Domaine personnalisé](#domaine-personnalisé))
+- [ ] Créer une image de partage dédiée en 1200×630 (aujourd’hui, l’aperçu sur les réseaux utilise le portrait)
+- [ ] Mettre à jour Node (22.22 minimum) puis Astro (`npm install astro@latest`) : Astro est fixé en 7.3.8 pour rester compatible avec Node 22.21
+
 ## Stack
 
 - [Astro](https://astro.build) : site 100 % statique, aucun framework JS côté client
