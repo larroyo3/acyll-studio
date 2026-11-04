@@ -1,19 +1,27 @@
 ---
+import { Image, Picture, getImage } from 'astro:assets';
 import AppPhone from './AppPhone.astro';
 import Icon from './Icon.astro';
+import thuriiMountains from '../assets/thurii/montagnes.webp';
+import thuriiPinecone from '../assets/thurii/pomme-de-pin.webp';
+import thuriiBranch from '../assets/thurii/branche-de-pin.webp';
+import thuriiAcorns from '../assets/thurii/glands.webp';
 import type { Project } from '../data/projects';
 import { site } from '../data/site';
-import { external } from '../lib/url';
+import { external, withBase } from '../lib/url';
 
 interface Props {
   project: Project;
-  index: number;
-  total: number;
   next: Project;
 }
 
-const { project: p, index, total, next } = Astro.props;
+const { project: p, next } = Astro.props;
 const pad = (n: number) => String(n).padStart(2, '0');
+const video = p.media?.video;
+const photo = p.media?.photo;
+const poster = video ? await getImage({ src: video.poster, width: 1280, format: 'webp' }) : undefined;
+// Illustrations de la charte Thurii, en filigrane (comme sur ses cartes de visite).
+const thurii = p.id === 'thurii';
 const t = p.theme;
 const vars = [
   `--cs-bg: ${t.bg}`,
@@ -32,18 +40,31 @@ const vars = [
 ---
 
 <div class="cs" style={vars}>
+  {thurii && <Image class="cs__acorns" src={thuriiAcorns} alt="" width={520} loading="lazy" />}
   <div class="cs__wrap cs__bar">
     <button type="button" class="cs__back" data-case-close>
       <Icon name="arrow-left" size={18} />
       Retour aux projets
     </button>
-    <span class="cs__index">Étude de cas · {pad(index + 1)} / {pad(total)}</span>
   </div>
 
   <section class="cs__wrap cs__hero" aria-labelledby={`etude-${p.id}-titre`}>
     <div class="cs__intro">
       <span class="cs__label">{p.kind}</span>
-      <h3 class="cs__title" id={`etude-${p.id}-titre`} tabindex="-1">{p.name}</h3>
+      <h3 class="cs__title" id={`etude-${p.id}-titre`} tabindex="-1">
+        {
+          p.wordmark ? (
+            <>
+              <svg class="cs__wordmark" viewBox={p.wordmark.viewBox} fill="currentColor" aria-hidden="true">
+                <path d={p.wordmark.d} />
+              </svg>
+              <span class="sr-only">{p.name}</span>
+            </>
+          ) : (
+            p.name
+          )
+        }
+      </h3>
       <p class="cs__tagline">{p.tagline}</p>
       <dl class="cs__meta">
         {
@@ -62,7 +83,8 @@ const vars = [
     </div>
   </section>
 
-  <section class="cs__context">
+  <section class:list={['cs__context', { 'cs__context--decor': thurii }]}>
+    {thurii && <Image class="cs__mountains" src={thuriiMountains} alt="" width={1400} loading="lazy" />}
     <div class="cs__wrap cs__context-inner">
       <h4>Le contexte</h4>
       <p>{p.context}</p>
@@ -70,6 +92,7 @@ const vars = [
   </section>
 
   <section class="cs__challenge">
+    {thurii && <Image class="cs__pinecone" src={thuriiPinecone} alt="" width={460} loading="lazy" />}
     <div class="cs__wrap cs__challenge-inner">
       <h4 class="cs__label">Le défi</h4>
       <p>{p.challenge}</p>
@@ -107,6 +130,38 @@ const vars = [
     </ul>
   </section>
 
+  {
+    (video || photo) && (
+      <section class="cs__wrap cs__media" aria-labelledby={`etude-${p.id}-images`}>
+        {thurii && <Image class="cs__branch" src={thuriiBranch} alt="" width={620} loading="lazy" />}
+        <h4 id={`etude-${p.id}-images`}>En images</h4>
+        <div class="cs__media-grid">
+          {video && (
+            <figure class="cs__video">
+              <video controls preload="none" playsinline poster={poster?.src} aria-label={video.title}>
+                <source src={withBase(video.src)} type="video/mp4" />
+              </video>
+              <figcaption>{video.title}</figcaption>
+            </figure>
+          )}
+          {photo && (
+            <figure class="cs__photo">
+              <Picture
+                src={photo.src}
+                formats={['avif', 'webp']}
+                widths={[480, 800, 1200]}
+                sizes="(max-width: 800px) 92vw, 520px"
+                alt={photo.alt}
+                loading="lazy"
+              />
+              <figcaption>{photo.caption}</figcaption>
+            </figure>
+          )}
+        </div>
+      </section>
+    )
+  }
+
   <section class="cs__wrap cs__end">
     <div class="cs__cta">
       <div class="cs__cta-text">
@@ -130,6 +185,8 @@ const vars = [
 
 <style>
   .cs {
+    position: relative;
+    overflow: hidden;
     background: var(--cs-bg);
     color: var(--cs-ink);
     transition: background-color .7s ease, color .7s ease;
@@ -162,12 +219,6 @@ const vars = [
     font-weight: 700;
     cursor: pointer;
   }
-  .cs__index {
-    font-size: 13px;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--cs-ink2);
-  }
 
   .cs__hero {
     padding-block: 56px 80px;
@@ -199,6 +250,101 @@ const vars = [
     line-height: .95;
     letter-spacing: var(--cs-title-tracking);
     outline: none;
+  }
+  /* Glands en haut à droite, comme sur la carte de visite Thurii. */
+  .cs > :global(.cs__acorns) {
+    position: absolute;
+    top: 12px;
+    right: max(-60px, calc(50% - 760px));
+    width: clamp(180px, 22vw, 320px);
+    height: auto;
+    opacity: .25;
+    transform: rotate(10deg);
+    pointer-events: none;
+  }
+  .cs__wordmark { display: block; height: clamp(64px, 9vw, 120px); width: auto; }
+
+  /* Filigranes Thurii */
+  /* Montagnes en fond de « Le contexte » : image entière (ni recadrée ni déformée), calée en bas à droite. */
+  .cs__context { position: relative; overflow: hidden; }
+  .cs__context-inner { position: relative; }
+  .cs__context--decor .cs__context-inner { min-height: 340px; }
+  .cs__context :global(.cs__mountains) {
+    position: absolute;
+    right: max(0px, calc(50% - 720px));
+    bottom: 0;
+    width: min(680px, 80%);
+    height: auto;
+    opacity: .2;
+    pointer-events: none;
+    /* Le dessin d'origine est encadré (traits sur les côtés et en bas) : on fond ses bords. */
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 82%, transparent 98%),
+      linear-gradient(to top, transparent 4%, #000 34%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent, #000 14%, #000 82%, transparent 98%),
+      linear-gradient(to top, transparent 4%, #000 34%);
+    mask-composite: intersect;
+  }
+  .cs__challenge { position: relative; overflow: hidden; }
+  .cs__challenge-inner { position: relative; }
+  /* Pomme de pin à gauche, en partie sous le texte (les illustrations alternent de côté). */
+  .cs__challenge :global(.cs__pinecone) {
+    position: absolute;
+    left: max(-70px, calc(50% - 760px));
+    top: 50%;
+    width: clamp(160px, 22vw, 300px);
+    height: auto;
+    opacity: .18;
+    transform: translateY(-50%) rotate(14deg);
+    pointer-events: none;
+  }
+
+  /* En images : vidéo et photo à la même hauteur (colonnes au prorata de leurs formats). */
+  .cs__media {
+    position: relative;
+    padding-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .cs__media > h4 {
+    position: relative;
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.1;
+  }
+  .cs__media :global(.cs__branch) {
+    position: absolute;
+    right: -120px;
+    top: -70px;
+    width: 300px;
+    height: auto;
+    opacity: .2;
+    transform: scaleX(-1) rotate(-20deg);
+    pointer-events: none;
+  }
+  .cs__media-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 16fr 13.5fr;
+    gap: 16px;
+  }
+  .cs__media figure { margin: 0; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .cs__media video,
+  .cs__media :global(.cs__photo img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    background: var(--cs-panel);
+  }
+  .cs__media video { aspect-ratio: 16 / 9; }
+  .cs__media :global(.cs__photo img) { aspect-ratio: 3 / 2; object-fit: cover; }
+  .cs__media figcaption { font-size: 14px; color: var(--cs-ink2); }
+  @media (max-width: 800px) {
+    .cs__media-grid { grid-template-columns: minmax(0, 1fr); }
   }
   .cs__tagline {
     margin: 0;

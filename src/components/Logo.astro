@@ -2,25 +2,28 @@
 // Logo « STUDIOS / ACYLL » vectorisé (voir src/data/logo.ts). Il prend la couleur du texte :
 // les faces de « ACYLL » sont des trous qui laissent voir le fond, comme sur le PNG d'origine.
 // La taille se règle avec `height` (ou `width`) en CSS.
-import { logo } from '../data/logo';
+// `small` : contours de ACYLL épaissis, pour rester lisibles en petit (header, moins de ~80 px de haut).
+import { logo, logoSmall } from '../data/logo';
 
 interface Props {
   label?: string;
   class?: string;
+  small?: boolean;
 }
 
-const { label, class: className } = Astro.props;
+const { label, class: className, small = false } = Astro.props;
+const data = small ? logoSmall : logo;
 ---
 
 <svg
   class:list={['logo', className]}
-  viewBox={`0 0 ${logo.width} ${logo.height}`}
+  viewBox={`0 0 ${data.width} ${data.height}`}
   fill="currentColor"
   role={label ? 'img' : undefined}
   aria-label={label}
   aria-hidden={label ? undefined : 'true'}
 >
-  <path fill-rule="evenodd" d={logo.d}></path>
+  <path fill-rule="evenodd" d={data.d}></path>
 </svg>
 
 <style>

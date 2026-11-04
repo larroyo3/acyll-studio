@@ -17,10 +17,10 @@ const themeCss = projects
 
 <section id="work" class="work st">
   <div class="container work__head">
+    <div class="work__badge reveal"><span class="eyebrow work__eyebrow st">Réalisations</span></div>
     <div class="work__intro reveal">
-      <span class="eyebrow work__eyebrow st">Réalisations</span>
       <h2 class="h2">Des apps pensées pour durer</h2>
-      <p class="work__lead st">Choisissez un projet : la section prend ses couleurs et l’étude de cas s’ouvre juste en dessous.</p>
+      <p class="work__lead st">Cliquez sur une app pour en découvrir plus.</p>
     </div>
     <div class="work__nav">
       <button type="button" class="rail-btn st" data-rail="-1" aria-label="Projets précédents" aria-controls="rail-pro">
@@ -44,7 +44,7 @@ const themeCss = projects
       <a href="#contact" class="app-card-cta st">
         <span class="app-card-cta__plus"><Icon name="plus" size={26} /></span>
         <span class="app-card-cta__title">Votre app ici ?</span>
-        <span class="app-card-cta__text st">La prochaine étude de cas pourrait être la vôtre. Parlons de votre projet.</span>
+        <span class="app-card-cta__text st">La prochaine app de cette liste pourrait être la vôtre. Parlons de votre idée.</span>
         <span class="app-card-cta__go">Démarrer un projet →</span>
       </a>
     </div>
@@ -54,7 +54,7 @@ const themeCss = projects
     {
       projects.map((project, i) => (
         <div id={`etude-${project.id}`} class="work__case cs-in" data-case={project.id} hidden>
-          <CaseStudy project={project} index={i} total={projects.length} next={projects[(i + 1) % projects.length]} />
+          <CaseStudy project={project} next={projects[(i + 1) % projects.length]} />
         </div>
       ))
     }
@@ -68,22 +68,24 @@ const themeCss = projects
     --s-ink2: var(--color-on-background-secondary);
     --s-line: var(--color-border);
     margin-top: 48px;
-    padding: 88px 0 32px;
+    padding: 56px 0 24px;
     border-radius: 40px;
     background: var(--s-bg);
     color: var(--s-ink);
   }
   .st { transition: background-color .9s cubic-bezier(.4, 0, .2, 1), color .9s cubic-bezier(.4, 0, .2, 1), border-color .9s cubic-bezier(.4, 0, .2, 1); }
 
+  /* Le badge au-dessus, puis titre + sous-titre à gauche et les flèches centrées à droite. */
   .work__head {
-    padding-bottom: 32px;
+    padding-bottom: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    align-items: flex-end;
-    gap: 24px;
+    align-items: center;
+    gap: 12px 24px;
   }
-  .work__intro { display: flex; flex-direction: column; gap: 16px; max-width: 700px; }
+  .work__intro { display: flex; flex-direction: column; gap: 12px; }
+  .work__badge { flex: 0 0 100%; }
   .work__eyebrow { border-color: var(--s-line); color: var(--s-ink2); }
   .work__eyebrow::before { background: currentColor; }
   .work__lead {
@@ -109,15 +111,17 @@ const themeCss = projects
   }
   .rail-btn:hover { transform: scale(1.06); }
 
+  /* Le carrousel déborde jusqu'aux bords de l'écran, mais la première carte (et chaque
+     arrêt du défilement) reste alignée sur le titre, c'est-à-dire sur le contenu de .container. */
   .rail {
-    max-width: 1304px;
-    margin: 0 auto;
+    --rail-inset: max(var(--gutter), calc((100% - 1240px) / 2 + var(--gutter)));
+    --gutter: clamp(12px, 3vw, 32px);
     display: flex;
     gap: 20px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scroll-padding: 0 clamp(12px, 3vw, 32px);
-    padding: 12px clamp(12px, 3vw, 32px) 32px;
+    scroll-padding-inline: var(--rail-inset);
+    padding: 12px var(--rail-inset) 28px;
     scrollbar-width: none;
   }
   .rail::-webkit-scrollbar { display: none; }
@@ -136,8 +140,8 @@ const themeCss = projects
   .rail.has-sel :global(.app-card[aria-pressed='false']:hover) { opacity: 1; }
 
   .app-card-cta {
-    width: min(360px, calc(100vw - 48px));
-    height: 580px;
+    width: min(380px, calc(100vw - 48px));
+    height: 570px;
     padding: 32px;
     border-radius: 28px;
     border: 2px dashed var(--s-ink2);
@@ -212,7 +216,7 @@ const themeCss = projects
       if (card?.dataset.project) open(card.dataset.project);
       else if (next?.dataset.caseOpen) open(next.dataset.caseOpen);
       else if (target.closest('[data-case-close]')) close();
-      else if (scrollBy) rail.scrollBy({ left: Number(scrollBy.dataset.rail) * 380, behavior: behavior() });
+      else if (scrollBy) rail.scrollBy({ left: Number(scrollBy.dataset.rail) * 400, behavior: behavior() });
     });
 
     // Lien direct vers une étude de cas (ex. …/#etude-kadanz).

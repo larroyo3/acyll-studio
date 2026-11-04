@@ -1,6 +1,8 @@
 ---
 // Maquette d'écran de téléphone pour chaque projet (illustration décorative).
 // Uniquement des <span> : le composant est aussi rendu à l'intérieur des cartes <button>.
+import { Image } from 'astro:assets';
+import thuriiScreen from '../assets/thurii/ecran-session-courte.jpg';
 import type { ProjectId } from '../data/projects';
 
 interface Props {
@@ -201,37 +203,14 @@ const dictRows = [
 
     {
       app === 'thurii' && (
-        <span style="width: 100%; height: 100%; background: #123a2c; color: #f3f7ef; display: flex; flex-direction: column; gap: 12px; padding: 54px 14px 20px;">
-          <span style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-weight: 700; font-size: 20px;">Thurii</span>
-            <span style="padding: 6px 10px; border-radius: 999px; background: #1a4a39; font-size: 11px; font-weight: 700; color: #8fd694;">Rando</span>
-          </span>
-          <span style="height: 250px; border-radius: 20px; background: #1a4a39; overflow: hidden;">
-            <svg viewBox="0 0 254 250" width="100%" height="250" style="display: block;">
-              <g fill="none" stroke="#245c47" stroke-width="1.2">
-                <ellipse cx="170" cy="70" rx="130" ry="80" />
-                <ellipse cx="172" cy="68" rx="90" ry="54" />
-                <ellipse cx="176" cy="66" rx="52" ry="30" />
-                <ellipse cx="60" cy="210" rx="110" ry="60" />
-                <ellipse cx="56" cy="214" rx="62" ry="32" />
-              </g>
-              <path d="M24 220 C 60 200, 50 160, 92 150 S 150 120, 138 86 S 190 40, 226 30" fill="none" stroke="#8fd694" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="1 8" />
-              <circle cx="24" cy="220" r="6" fill="#f3f7ef" />
-              <path d="M226 30 L226 8 L242 14 L226 20" fill="#8fd694" stroke="#8fd694" stroke-width="2" stroke-linejoin="round" />
-            </svg>
-          </span>
-          <span style="border-radius: 20px; background: #f3f7ef; color: #123a2c; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
-            <span style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-weight: 700; font-size: 13px;">Dénivelé</span>
-              <span style="height: 8px; width: 60px; border-radius: 4px; background: #d5e3d8;" />
-            </span>
-            <svg viewBox="0 0 226 70" width="100%" height="70" style="display: block;">
-              <path d="M0 62 L18 54 L34 58 L52 40 L70 44 L92 22 L112 30 L130 12 L150 20 L170 34 L190 28 L210 46 L226 50 L226 70 L0 70 Z" fill="#cfe5d3" />
-              <path d="M0 62 L18 54 L34 58 L52 40 L70 44 L92 22 L112 30 L130 12 L150 20 L170 34 L190 28 L210 46 L226 50" fill="none" stroke="#2f7d55" stroke-width="2" stroke-linejoin="round" />
-            </svg>
-          </span>
-          <span style="margin-top: auto; height: 46px; border-radius: 14px; background: #8fd694; color: #123a2c; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px;">Commencer la rando</span>
-        </span>
+        <Image
+          class="screen__shot"
+          src={thuriiScreen}
+          alt=""
+          widths={[300, 600]}
+          sizes="282px"
+          loading="lazy"
+        />
       )
     }
 
@@ -260,6 +239,14 @@ const dictRows = [
     border-radius: 39px;
     overflow: hidden;
     position: relative;
+  }
+  /* Vraie capture d'écran (Thurii) : remplit l'écran, calée en haut. */
+  .screen :global(.screen__shot) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
   }
   /* Les <span> de la maquette jouent le rôle de <div>. */
   .screen :global(span) { display: block; }

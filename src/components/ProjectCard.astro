@@ -1,7 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import AppPhone from './AppPhone.astro';
 import Icon from './Icon.astro';
+import thuriiBranch from '../assets/thurii/branche-haut.webp';
 import type { Project } from '../data/projects';
+import { thuriiMark } from '../data/thurii';
 
 interface Props {
   project: Project;
@@ -63,31 +66,42 @@ const nameStyle = `font-family: ${p.title.font}; font-weight: ${p.title.weight};
         }
         {
           p.id === 'thurii' && (
-            <svg width="44" height="44" viewBox="0 0 56 56" aria-hidden="true">
-              <path d="M9 41 L22 22 L30 32 L36 25 L47 41 Z" fill="#8fd694" />
-              <circle cx="40" cy="15" r="4" fill="#f3f7ef" />
+            <svg width="30" height="24" viewBox={thuriiMark.viewBox} aria-hidden="true">
+              <path d={thuriiMark.heads} fill="#fffcf8" />
+              <path d={thuriiMark.bowls} fill="#4cf7c8" />
             </svg>
           )
         }
       </span>
       <span class="app-card__label"><span>{p.label[0]}</span><span>{p.label[1]}</span></span>
     </span>
-    <span class="app-card__name" id={ids.name} style={nameStyle}>{p.name}</span>
+    {
+      p.wordmark ? (
+        <span class="app-card__name" id={ids.name}>
+          <svg class="app-card__wordmark" viewBox={p.wordmark.viewBox} fill="currentColor" role="img" aria-label={p.name}>
+            <path d={p.wordmark.d} />
+          </svg>
+        </span>
+      ) : (
+        <span class="app-card__name" id={ids.name} style={nameStyle}>{p.name}</span>
+      )
+    }
     <span class="app-card__summary" id={ids.summary}>{p.summary}</span>
     <span class="app-card__foot">
       <span class="app-card__chips">{p.chips.map((chip) => <span>{chip}</span>)}</span>
-      <span class="app-card__cta" id={ids.cta}>Étude de cas <Icon name="arrow-right" size={16} stroke={2} class="go" /></span>
+      <span class="app-card__cta" id={ids.cta}>Découvrir <Icon name="arrow-right" size={16} stroke={2} class="go" /></span>
     </span>
   </span>
   <span class="app-card__screen" aria-hidden="true">
+    {p.id === 'thurii' && <Image class="app-card__decor" src={thuriiBranch} alt="" width={340} loading="lazy" />}
     <span class="app-card__phone"><span class="phone"><AppPhone app={p.id} /></span></span>
   </span>
 </button>
 
 <style>
   .app-card {
-    width: min(360px, calc(100vw - 48px));
-    height: 580px;
+    width: min(380px, calc(100vw - 48px));
+    height: 570px;
     padding: 0;
     border: 0;
     border-radius: 28px;
@@ -127,6 +141,19 @@ const nameStyle = `font-family: ${p.title.font}; font-weight: ${p.title.weight};
     color: var(--card-ink2);
   }
   .app-card__name { line-height: 1; }
+  /* Nom en typo de marque : même hauteur visuelle qu'un nom en texte de 40 px. */
+  .app-card__wordmark { display: block; height: 36px; width: auto; margin-block: 2px; }
+  /* Illustration en filigrane derrière le téléphone (Thurii). */
+  .app-card__screen :global(.app-card__decor) {
+    position: absolute;
+    top: -18px;
+    right: -40px;
+    width: 230px;
+    height: auto;
+    opacity: .28;
+    transform: rotate(8deg);
+    pointer-events: none;
+  }
   .app-card__summary {
     font-size: 15px;
     line-height: 1.5;

@@ -12,7 +12,6 @@ En ligne : **https://larroyo3.github.io/acyll-studio/**
 **Contenu à compléter** (valeurs entre crochets, visibles en ligne)
 - [ ] `src/data/site.ts` : `siret`, `missions` (nombre de missions, affiché dans les chiffres clés et la carte Malt)
 - [ ] `src/data/content.ts` :
-  - [ ] `clients` : remplacer les 3 « [Logo client] »
   - [ ] `testimonials` : les 5 avis Malt (citation, prénom, mission)
   - [ ] `offers` : les prix des 3 formules et la durée du support (« [X] mois »)
   - [ ] `pricingNote` : le délai de devis (« [X] jours »)
@@ -25,6 +24,7 @@ En ligne : **https://larroyo3.github.io/acyll-studio/**
 - [ ] Ajouter un lien « CGV » dans `src/components/Footer.astro` quand elles existeront (retiré en attendant)
 
 **Plus tard (optionnel)**
+- [ ] Remettre le bandeau clients quand il y aura assez de noms ([issue #1](https://github.com/larroyo3/acyll-studio/issues/1))
 - [ ] Passer sur un domaine perso (voir [Domaine personnalisé](#domaine-personnalisé))
 - [ ] Créer une image de partage dédiée en 1200×630 (aujourd’hui, l’aperçu sur les réseaux utilise le portrait)
 - [ ] Mettre à jour Node (22.22 minimum) puis Astro (`npm install astro@latest`) : Astro est fixé en 7.3.8 pour rester compatible avec Node 22.21

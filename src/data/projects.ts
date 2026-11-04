@@ -1,16 +1,28 @@
 // Projets affichés dans « Réalisations » : la carte du carrousel, les couleurs que prend la
 // section quand le projet est ouvert, et le contenu de son étude de cas.
+import type { ImageMetadata } from 'astro';
+import thuriiEquipe from '../assets/thurii/equipe.jpg';
+import thuriiVideoApercu from '../assets/thurii/video-apercu.jpg';
+import { thuriiWordmark } from './thurii';
+
 export type ProjectId = 'kadanz' | 'musherr' | 'dictfr' | 'thurii';
 
 export interface Project {
   id: ProjectId;
   name: string;
-  /** Deux lignes en haut de la carte. */
+  /** Deux lignes en haut de la carte : type de projet, puis date. */
   label: [string, string];
   summary: string;
   chips: [string, string];
   kind: string;
   tagline: string;
+  /** Nom dessiné dans sa typo de marque (remplace le texte, sur la carte et en tête de page). */
+  wordmark?: { viewBox: string; d: string };
+  /** Vidéo et photo affichées en bas de la page du projet. `video.src` est relatif à public/. */
+  media?: {
+    video?: { src: string; poster: ImageMetadata; title: string };
+    photo?: { src: ImageMetadata; alt: string; caption: string };
+  };
   /** Typo du nom du projet : `tracking` pour l'étude de cas, `card*` pour la carte du carrousel. */
   title: { font: string; weight: number; tracking: string; cardSize: number; cardTracking: string };
   theme: {
@@ -39,7 +51,7 @@ export const projects: Project[] = [
   {
     id: 'kadanz',
     name: 'Kadanz',
-    label: ['App perso · 2026', 'Android & iOS'],
+    label: ['App perso', '2026'],
     summary: 'Un objectif d’épargne devient une carte d’embarquement.',
     chips: ['Compose', 'SwiftUI'],
     kind: 'App perso · Android & iOS',
@@ -75,7 +87,7 @@ export const projects: Project[] = [
   {
     id: 'musherr',
     name: 'Musherr',
-    label: ['Mission client · 2026', 'Android & iOS'],
+    label: ['Mission client', '2026'],
     summary: 'Une app développée de A à Z, en Kotlin Multiplatform.',
     chips: ['KMP', 'GPS'],
     kind: 'Mission client · Android & iOS',
@@ -111,7 +123,7 @@ export const projects: Project[] = [
   {
     id: 'dictfr',
     name: 'Dict.fr Mobile',
-    label: ['Sogelink · 2023 – 2025', 'Android & iOS'],
+    label: ['Sogelink', '2023 – 2025'],
     summary: 'L’app des pros du BTP. Plus de 20 000 téléchargements.',
     chips: ['KMP', 'Équipe de 8'],
     kind: 'Sogelink · BTP',
@@ -147,17 +159,24 @@ export const projects: Project[] = [
   {
     id: 'thurii',
     name: 'Thurii',
-    label: ['Co-fondateur · 2021 – 2024', 'Android'],
+    label: ['Co-fondateur', '2021 – 2024'],
     summary: 'Une app de randonnée, meilleur projet d’Epitech Lyon.',
     chips: ['Kotlin', 'Top 10'],
     kind: 'Co-fondateur · Android',
     tagline: 'Une app de randonnée lancée pendant mes études, élue meilleur projet d’Epitech Lyon.',
-    title: poppins,
-    theme: {
-      bg: '#123a2c', panel: '#1a4a39', glow: '#1d5240', ink: '#f3f7ef', ink2: '#b7d0bf',
-      accent: '#8fd694', onAccent: '#123a2c', accentText: '#8fd694', line: 'rgba(243,247,239,0.16)',
+    // Charte Thurii (thurii.fr et l'app Android) : vert forêt #2b6f61, menthe #4cf7c8 / #a9e5d9,
+    // crème #fffcf8, vert nuit #011312. Titres en Urbanist, comme dans l'app.
+    title: { font: "'Urbanist', sans-serif", weight: 800, tracking: '-0.01em', cardSize: 40, cardTracking: '0' },
+    wordmark: thuriiWordmark,
+    media: {
+      video: { src: 'thurii/epitech-experience.mp4', poster: thuriiVideoApercu, title: 'Thurii à Epitech Experience 2024' },
+      photo: { src: thuriiEquipe, alt: 'L’équipe de Thurii, cinq étudiants d’Epitech', caption: 'L’équipe Thurii' },
     },
-    card: { iconBg: '#1a4a39', screen: '#1a4a39', chipLine: 'rgba(243,247,239,0.28)', sectionLine: 'rgba(243,247,239,0.2)' },
+    theme: {
+      bg: '#2b6f61', panel: '#245d52', glow: '#347d6d', ink: '#fffcf8', ink2: '#cdeee6',
+      accent: '#4cf7c8', onAccent: '#011312', accentText: '#a9e5d9', line: 'rgba(255,252,248,0.2)',
+    },
+    card: { iconBg: '#011312', screen: '#245d52', chipLine: 'rgba(255,252,248,0.32)', sectionLine: 'rgba(255,252,248,0.24)' },
     meta: [
       { k: 'Rôle', v: 'Co-fondateur, développeur Android' },
       { k: 'Plateforme', v: 'Android · Kotlin' },

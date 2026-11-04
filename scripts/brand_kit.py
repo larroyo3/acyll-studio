@@ -2,7 +2,7 @@
 
 Usage:
   pip install potracer numpy pillow scipy resvg-py
-  python scripts/brand_kit.py "../Acyll/brand logo_whiteBG.png" ../Acyll
+  python scripts/brand_kit.py "../Acyll/Old/brand logo_whiteBG.png" ../Acyll
 """
 import io
 import os
@@ -12,7 +12,7 @@ import resvg_py
 from PIL import Image
 
 sys.path.insert(0, os.path.dirname(__file__))
-from logo import BURGUNDY, CREAM, RED, logo_svg, monogram_svg, trace  # noqa: E402
+from logo import BURGUNDY, CREAM, RED, SMALL_THICKEN, logo_svg, monogram_svg, trace  # noqa: E402
 
 BLACK, WHITE = "#000000", "#ffffff"
 LIGHT = {WHITE, CREAM}
@@ -95,14 +95,21 @@ def square_logo(d_ink, d_faces, w, h, ink, faces, bg):
 def main():
     src, out = sys.argv[1:3]
     d_ink, d_faces, w, h = trace(src)
+    # Version petites tailles : contours de ACYLL épaissis (header, signature mail, avatars).
+    ds_ink, ds_faces, _, _ = trace(src, thicken=SMALL_THICKEN)
     entries = []  # (section, file, shown on a dark checkerboard)
 
     for name, (ink, faces, bg) in LOGOS.items():
         svg = logo_svg(d_ink, d_faces, w, h, ink, faces, bg, margin=round(h * 0.3) if bg else 0)
         entries.append(("Logo", save(out, "logo", name, svg, 2400), bg is None and ink in LIGHT))
+    for name, (ink, faces, bg) in LOGOS.items():
+        svg = logo_svg(ds_ink, ds_faces, w, h, ink, faces, bg, margin=round(h * 0.3) if bg else 0)
+        entries.append(("Logo, version petites tailles (moins de 80 px de haut)",
+                        save(out, "logo", name + "-petit", svg, 800), bg is None and ink in LIGHT))
+    # Les photos de profil s'affichent en petit : elles utilisent la version petites tailles.
     for name in SQUARES:
         ink, faces, bg = LOGOS[name]
-        svg = square_logo(d_ink, d_faces, w, h, ink, faces, bg)
+        svg = square_logo(ds_ink, ds_faces, w, h, ink, faces, bg)
         entries.append(("Logo carré (photo de profil)", save(out, "logo", name + "-carre", svg, 1600), False))
 
     for name, (ink, face, bg) in TILES.items():
