@@ -12,6 +12,8 @@
   --color-on-background-muted: #a97f83;
   --color-border: #5a1019;
   --color-border-subtle: #43090f;
+  /* Étoiles des notes (Malt, avis) : doré chaud, lisible sur le bordeaux comme sur le rouge. */
+  --color-rating: #f2b33d;
   --surface-card: var(--color-background-raised);
   --surface-overlay: #1a0204;
   --text-primary: var(--color-on-background);

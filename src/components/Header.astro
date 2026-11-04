@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import Wordmark from './Wordmark.astro';
+import Logo from './Logo.astro';
 import { site } from '../data/site';
 import { external } from '../lib/url';
 
@@ -13,8 +13,8 @@ const { home = '' } = Astro.props;
 const links = [
   { id: 'work', label: 'Réalisations' },
   { id: 'services', label: 'Services' },
-  { id: 'avis', label: 'Avis' },
   { id: 'process', label: 'Méthode' },
+  { id: 'avis', label: 'Avis' },
   { id: 'tarifs', label: 'Tarifs' },
   { id: 'faq', label: 'FAQ' },
 ];
@@ -28,8 +28,7 @@ const links = [
 <div class="header-wrap">
   <header class="header" data-header>
     <a href={`${home}#top`} class="brand" aria-label="Acyll Studio, accueil">
-      <Wordmark name="acyll" />
-      <span class="brand__studio">Studio</span>
+      <Logo />
     </a>
     <nav class="nav" aria-label="Navigation principale">
       <ul class="nav__links" id="nav-links">
@@ -102,19 +101,11 @@ const links = [
 
   .brand {
     display: flex;
-    align-items: baseline;
-    gap: 8px;
-    font-size: 32px;
+    align-items: center;
+    color: var(--text-primary);
     text-decoration: none;
   }
-  .brand__studio {
-    font-family: var(--font-title);
-    font-weight: 700;
-    font-size: 10px;
-    letter-spacing: .32em;
-    text-transform: uppercase;
-    color: var(--text-secondary);
-  }
+  .brand :global(.logo) { height: 40px; }
 
   .nav {
     display: flex;

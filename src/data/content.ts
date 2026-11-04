@@ -5,18 +5,27 @@ import { site } from './site';
 export const technologies: { name: string; highlight?: boolean }[][] = [
   [
     { name: 'Kotlin' },
-    { name: 'Jetpack Compose', highlight: true },
-    { name: 'Kotlin Multiplatform' },
-    { name: 'SwiftUI' },
+    { name: 'Kotlin Multiplatform', highlight: true },
+    { name: 'Jetpack Compose' },
+    { name: 'Compose Multiplatform' },
     { name: 'Swift' },
+    { name: 'SwiftUI' },
   ],
   [
     { name: 'Android' },
     { name: 'iOS' },
     { name: 'Google Play', highlight: true },
     { name: 'App Store' },
-    { name: 'Flutter' },
-    { name: 'React Native' },
+    { name: 'Android Studio' },
+    { name: 'Xcode' },
+  ],
+  [
+    { name: 'Ktor' },
+    { name: 'Coroutines' },
+    { name: 'Room' },
+    { name: 'Koin' },
+    { name: 'Firebase', highlight: true },
+    { name: 'Figma' },
   ],
 ];
 

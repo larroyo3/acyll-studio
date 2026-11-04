@@ -1,11 +1,11 @@
 """Shape fixed brand words with HarfBuzz and export them as SVG path data.
 
 The brand fonts are commercial and are never committed: this script turns the few words
-the site needs into outlines (src/data/wordmarks.ts) and draws the favicon.
+the site needs into outlines (src/data/wordmarks.ts) (the favicon is drawn by scripts/logo.py).
 
 Usage:
   pip install fonttools uharfbuzz
-  python scripts/wordmarks.py <Hitch-hike.otf> <TANHEADLINE-Regular.otf> src/data/wordmarks.ts public/favicon.svg
+  python scripts/wordmarks.py <Hitch-hike.otf> <TANHEADLINE-Regular.otf> src/data/wordmarks.ts
 """
 import json
 import sys
@@ -59,7 +59,7 @@ def wordmark(path, text):
 
 
 def main():
-    hitch, tan, out_ts, out_favicon = sys.argv[1:5]
+    hitch, tan, out_ts = sys.argv[1:4]
     marks = {
         "acyll": wordmark(hitch, "Acyll"),
         "lucas": wordmark(hitch, "Lucas"),
@@ -71,21 +71,6 @@ def main():
         f.write("export const wordmarks = ")
         f.write(json.dumps(marks, indent=2))
         f.write(" as const;\n\nexport type WordmarkName = keyof typeof wordmarks;\n")
-
-    a = wordmark(hitch, "A")
-    ix, iy, iw, ih = a["ink"]
-    size = max(iw, ih)
-    pad = size * 0.22
-    box = size + pad * 2
-    # Center the ink box of the glyph inside a rounded square.
-    tx = -ix + (box - iw) / 2
-    ty = -iy + (box - ih) / 2
-    with open(out_favicon, "w") as f:
-        f.write(
-            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {box:.0f} {box:.0f}">'
-            f'<rect width="{box:.0f}" height="{box:.0f}" rx="{box * 0.22:.0f}" fill="#9e001a"/>'
-            f'<path transform="translate({tx:.1f} {ty:.1f})" fill="#fffcfc" d="{a["d"]}"/></svg>\n'
-        )
 
 
 if __name__ == "__main__":

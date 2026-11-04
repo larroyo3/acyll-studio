@@ -94,9 +94,12 @@ Tant que les clés manquent, le formulaire affiche un message invitant à écrir
 
 ## Logotypes
 
+Le logo « STUDIOS / ACYLL » (fait dans Canva) est vectorisé à partir du PNG d’origine dans `src/data/logo.ts` (composant `Logo`).
+Le favicon est le « A » du logo, redessiné en trait épais. Pour les régénérer : voir `scripts/logo.py`.
+Le kit complet du logo (toutes les couleurs, SVG et PNG) est dans `../Acyll`, généré par `scripts/brand_kit.py`.
+
 Les polices de marque (Hitch Hike, TAN Headline) sont sous licence commerciale : elles ne sont pas publiées.
-Les mots « Acyll », « Lucas » et « Acyll Studio » sont vectorisés dans `src/data/wordmarks.ts`, et le favicon dans `public/favicon.svg`.
-Pour les régénérer : voir `scripts/wordmarks.py`.
+Les mots « Acyll », « Lucas » et « Acyll Studio » sont vectorisés dans `src/data/wordmarks.ts` (voir `scripts/wordmarks.py`).
 
 ## Domaine personnalisé
 
