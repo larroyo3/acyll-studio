@@ -163,14 +163,14 @@ export const projects: Project[] = [
     summary: 'Une app de randonnée, meilleur projet d’Epitech Lyon.',
     chips: ['Kotlin', 'Top 10'],
     kind: 'Co-fondateur · Android',
-    tagline: 'Une app de randonnée lancée pendant mes études, élue meilleur projet d’Epitech Lyon.',
+    tagline: 'Une app pour préparer, suivre et partager ses randonnées, créée à six pendant nos études et élue meilleur projet d’Epitech Lyon.',
     // Charte Thurii (thurii.fr et l'app Android) : vert forêt #2b6f61, menthe #4cf7c8 / #a9e5d9,
     // crème #fffcf8, vert nuit #011312. Titres en Urbanist, comme dans l'app.
     title: { font: "'Urbanist', sans-serif", weight: 800, tracking: '-0.01em', cardSize: 40, cardTracking: '0' },
     wordmark: thuriiWordmark,
     media: {
       video: { src: 'thurii/epitech-experience.mp4', poster: thuriiVideoApercu, title: 'Thurii à Epitech Experience 2024' },
-      photo: { src: thuriiEquipe, alt: 'L’équipe de Thurii, cinq étudiants d’Epitech', caption: 'L’équipe Thurii' },
+      photo: { src: thuriiEquipe, alt: 'Cinq membres de l’équipe Thurii, posant ensemble', caption: 'Une partie de l’équipe Thurii' },
     },
     theme: {
       bg: '#2b6f61', panel: '#245d52', glow: '#347d6d', ink: '#fffcf8', ink2: '#cdeee6',
@@ -179,23 +179,23 @@ export const projects: Project[] = [
     card: { iconBg: '#011312', screen: '#245d52', chipLine: 'rgba(255,252,248,0.32)', sectionLine: 'rgba(255,252,248,0.24)' },
     meta: [
       { k: 'Rôle', v: 'Co-fondateur, développeur Android' },
+      { k: 'Équipe', v: 'Six étudiants d’Epitech Lyon' },
       { k: 'Plateforme', v: 'Android · Kotlin' },
-      { k: 'Période', v: '2021 – 2024' },
-      { k: 'Statut', v: 'Retirée du Play Store' },
+      { k: 'Statut', v: 'Version 1 publiée en 2023, retirée depuis' },
     ],
     context:
-      'Thurii est une application de randonnée Android, co-fondée et développée pendant mes années à Epitech. Elle a réuni plus de 50 utilisateurs actifs avant d’être retirée du Play Store.',
-    challenge: 'Lancer une app de zéro, en équipe, et la faire vivre auprès de vrais randonneurs.',
+      'Thurii est née fin 2021 à Epitech Lyon : six étudiants passionnés d’outdoor et une idée, rendre les sorties en nature plus simples et plus sûres. L’app permet de préparer un parcours, de le suivre en direct, de signaler les dangers rencontrés en chemin et de partager ses sorties avec ses amis. Après une bêta en avril 2023, la version 1 est sortie sur le Play Store en décembre 2023.',
+    challenge: 'Construire à six, en parallèle des études, une app sur laquelle on peut compter en pleine montagne.',
     done: [
-      { t: 'L’app Android', d: 'Développement en Kotlin, d’abord avec des vues XML, puis migration vers Jetpack Compose.' },
-      { t: 'La co-fondation', d: 'Porter le projet de l’idée aux premiers utilisateurs, en tant que co-fondateur.' },
-      { t: 'La reconnaissance', d: 'Meilleur projet d’Epitech Lyon et top 10 Epitech France.' },
+      { t: 'Le parcours utilisateur', d: 'Inscription, connexion avec Google, double authentification, paramètres : tout ce qui mène à la carte, en français et en anglais, en thème clair et sombre.' },
+      { t: 'La partie sociale', d: 'La page Découvrir, la publication d’une sortie avec photos, stats et dénivelé, le fil des amis et le détail de chaque publication.' },
+      { t: 'Les alertes sur la carte', d: 'Signaler un danger en quelques secondes (sentier bloqué, passage glissant…) avec une photo et sa position, visible par les autres randonneurs.' },
     ],
     facts: [
       { v: '50+', l: 'utilisateurs actifs' },
-      { v: 'N° 1', l: 'meilleur projet Epitech Lyon' },
-      { v: 'Top 10', l: 'Epitech France' },
+      { v: 'N° 1', l: 'meilleur projet d’Epitech Lyon' },
+      { v: 'Top 10', l: 'des projets Epitech en France' },
     ],
-    stack: ['Kotlin', 'Vues XML', 'Jetpack Compose'],
+    stack: ['Kotlin', 'Vues XML', 'OpenStreetMap', 'Room', 'Retrofit', 'Firebase', 'Coroutines'],
   },
 ];
