@@ -187,9 +187,9 @@ export const projects: Project[] = [
       'Thurii est née fin 2021 à Epitech Lyon : six étudiants passionnés d’outdoor et une idée, rendre les sorties en nature plus simples et plus sûres. L’app permet de préparer un parcours, de le suivre en direct, de signaler les dangers rencontrés en chemin et de partager ses sorties avec ses amis. Après une bêta en avril 2023, la version 1 est sortie sur le Play Store en décembre 2023.',
     challenge: 'Construire à six, en parallèle des études, une app sur laquelle on peut compter en pleine montagne.',
     done: [
-      { t: 'Le parcours utilisateur', d: 'Inscription, connexion avec Google, double authentification, paramètres : tout ce qui mène à la carte, en français et en anglais, en thème clair et sombre.' },
-      { t: 'La partie sociale', d: 'La page Découvrir, la publication d’une sortie avec photos, stats et dénivelé, le fil des amis et le détail de chaque publication.' },
-      { t: 'Les alertes sur la carte', d: 'Signaler un danger en quelques secondes (sentier bloqué, passage glissant…) avec une photo et sa position, visible par les autres randonneurs.' },
+      { t: 'La co-fondation', d: 'Porter le projet avec l’équipe, de l’idée en 2021 à la version 1 sur le Play Store, en passant par la bêta et les retours des premiers randonneurs.' },
+      { t: 'L’app Android', d: 'Développement en Kotlin de pans entiers de l’app : inscription et connexion, partage des sorties entre amis, alertes de danger sur la carte, en français et en anglais.' },
+      { t: 'La reconnaissance', d: 'Meilleur projet d’Epitech Lyon et top 10 Epitech France, présenté à Paris lors d’Epitech Experience 2024.' },
     ],
     facts: [
       { v: '50+', l: 'utilisateurs actifs' },

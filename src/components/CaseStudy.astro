@@ -83,6 +83,19 @@ const vars = [
     </div>
   </section>
 
+  <section class="cs__wrap cs__facts" aria-label="Chiffres clés">
+    <div class="cs__facts-grid">
+      {
+        p.facts.map((f) => (
+          <div class="cs__fact">
+            <span class="cs__fact-v">{f.v}</span>
+            <span class="cs__fact-l">{f.l}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
   <section class:list={['cs__context', { 'cs__context--decor': thurii }]}>
     {thurii && <Image class="cs__mountains" src={thuriiMountains} alt="" width={1400} loading="lazy" />}
     <div class="cs__wrap cs__context-inner">
@@ -97,37 +110,6 @@ const vars = [
       <h4 class="cs__label">Le défi</h4>
       <p>{p.challenge}</p>
     </div>
-  </section>
-
-  <section class="cs__wrap cs__done">
-    <h4>Ce que j’ai fait</h4>
-    <ol>
-      {
-        p.done.map((d, i) => (
-          <li>
-            <span class="cs__done-n">{pad(i + 1)}</span>
-            <h5>{d.t}</h5>
-            <p>{d.d}</p>
-          </li>
-        ))
-      }
-    </ol>
-  </section>
-
-  <section class="cs__wrap cs__facts" aria-label="Chiffres et technologies">
-    <div class="cs__facts-grid">
-      {
-        p.facts.map((f) => (
-          <div class="cs__fact">
-            <span class="cs__fact-v">{f.v}</span>
-            <span class="cs__fact-l">{f.l}</span>
-          </div>
-        ))
-      }
-    </div>
-    <ul class="cs__stack" aria-label="Technologies">
-      {p.stack.map((s) => <li>{s}</li>)}
-    </ul>
   </section>
 
   {
@@ -161,6 +143,24 @@ const vars = [
       </section>
     )
   }
+
+  <section class="cs__wrap cs__done">
+    <h4>Ce que j’ai fait</h4>
+    <ol>
+      {
+        p.done.map((d, i) => (
+          <li>
+            <span class="cs__done-n">{pad(i + 1)}</span>
+            <h5>{d.t}</h5>
+            <p>{d.d}</p>
+          </li>
+        ))
+      }
+    </ol>
+    <ul class="cs__stack" aria-label="Technologies">
+      {p.stack.map((s) => <li>{s}</li>)}
+    </ul>
+  </section>
 
   <section class="cs__wrap cs__end">
     <div class="cs__cta">
@@ -300,9 +300,10 @@ const vars = [
   }
 
   /* En images : vidéo et photo à la même hauteur (colonnes au prorata de leurs formats). */
+  /* Après « Le défi » : le projet en images, avant de détailler mon rôle. */
   .cs__media {
     position: relative;
-    padding-bottom: 80px;
+    padding-top: 88px;
     display: flex;
     flex-direction: column;
     gap: 32px;
@@ -470,12 +471,8 @@ const vars = [
   }
   .cs__done li p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--cs-ink2); }
 
-  .cs__facts {
-    padding-bottom: 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  }
+  /* Chiffres clés juste sous l'en-tête : les preuves avant le récit. */
+  .cs__facts { margin-top: -24px; padding-bottom: 72px; }
   .cs__facts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
