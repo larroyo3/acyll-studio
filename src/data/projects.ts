@@ -160,10 +160,10 @@ export const projects: Project[] = [
     id: 'thurii',
     name: 'Thurii',
     label: ['Co-fondateur', '2021 – 2024'],
-    summary: 'Une app de randonnée, meilleur projet d’Epitech Lyon.',
-    chips: ['Kotlin', 'Top 10'],
+    summary: 'Une app pour randonner en sécurité. On y prépare, suit et partage ses aventures.',
+    chips: ['Android', 'Top 10 Epitech France'],
     kind: 'Co-fondateur · Android',
-    tagline: 'Une app pour préparer, suivre et partager ses randonnées, créée à six pendant nos études et élue meilleur projet d’Epitech Lyon.',
+    tagline: 'Une app pour préparer, suivre et partager ses aventures, créée à six pendant nos études et élue meilleur projet d’Epitech Lyon.',
     // Charte Thurii (thurii.fr et l'app Android) : vert forêt #2b6f61, menthe #4cf7c8 / #a9e5d9,
     // crème #fffcf8, vert nuit #011312. Titres en Urbanist, comme dans l'app.
     title: { font: "'Urbanist', sans-serif", weight: 800, tracking: '-0.01em', cardSize: 40, cardTracking: '0' },
@@ -184,11 +184,11 @@ export const projects: Project[] = [
       { k: 'Statut', v: 'Version 1 publiée en 2023, retirée depuis' },
     ],
     context:
-      'Thurii est née fin 2021 à Epitech Lyon : six étudiants passionnés d’outdoor et une idée, rendre les sorties en nature plus simples et plus sûres. L’app permet de préparer un parcours, de le suivre en direct, de signaler les dangers rencontrés en chemin et de partager ses sorties avec ses amis. Après une bêta en avril 2023, la version 1 est sortie sur le Play Store en décembre 2023.',
+      'Thurii est née fin 2021 à Epitech Lyon. Six étudiants passionnés d’outdoor avec une idée : rendre les aventures en nature plus simples et plus sûres. Avec l’app, on prépare son parcours et on le suit en direct. On signale les dangers rencontrés en chemin, et on partage ses aventures avec ses amis. Après une bêta en avril 2023, l’app est sortie sur le Play Store en décembre 2023 et a réuni plus de 50 utilisateurs actifs.',
     challenge: 'Construire à six, en parallèle des études, une app sur laquelle on peut compter en pleine montagne.',
     done: [
-      { t: 'La co-fondation', d: 'Porter le projet avec l’équipe, de l’idée en 2021 à la version 1 sur le Play Store, en passant par la bêta et les retours des premiers randonneurs.' },
-      { t: 'L’app Android', d: 'Développement en Kotlin de pans entiers de l’app : inscription et connexion, partage des sorties entre amis, alertes de danger sur la carte, en français et en anglais.' },
+      { t: 'La co-fondation', d: 'Porter le projet avec l’équipe, de l’idée en 2021 à la version en production sur le Play Store, en passant par la bêta et les retours des premiers randonneurs.' },
+      { t: 'L’app Android', d: 'Développement en Kotlin de pans entiers de l’app : inscription et connexion, partage des aventures entre amis, alertes de danger sur la carte.' },
       { t: 'La reconnaissance', d: 'Meilleur projet d’Epitech Lyon et top 10 Epitech France, présenté à Paris lors d’Epitech Experience 2024.' },
     ],
     facts: [
