@@ -67,8 +67,8 @@ export const projects: Project[] = [
     id: 'kadanz',
     name: 'Kadanz',
     label: ['App perso', '2026'],
-    summary: 'Un objectif d’épargne devient une carte d’embarquement.',
-    chips: ['Compose', 'SwiftUI'],
+    summary: 'Une app d’épargne : chaque objectif devient une carte d’embarquement.',
+    chips: ['Android', 'iOS'],
     kind: 'App perso · Android & iOS',
     tagline: 'Un objectif d’épargne devient une carte d’embarquement.',
     title: { font: "'Jost', sans-serif", weight: 300, tracking: '0.04em', cardSize: 40, cardTracking: '0.04em' },
@@ -90,26 +90,22 @@ export const projects: Project[] = [
     },
     card: { iconBg: '#163852', screen: '#163852', chipLine: 'rgba(255,255,255,0.28)', sectionLine: 'rgba(255,255,255,0.2)' },
     meta: [
-      { k: 'Rôle', v: 'Conception, design system et développement' },
-      { k: 'Plateformes', v: 'Android (Jetpack Compose) · iOS (SwiftUI)' },
+      { k: 'Rôle', v: 'Seul, de A à Z : conception, développement et mise en production' },
+      { k: 'Plateformes', v: 'Android et iOS' },
       { k: 'Année', v: '2026' },
-      { k: 'Statut', v: 'Bientôt sur les stores' },
+      { k: 'Statut', v: 'Bientôt disponible sur Android et iOS' },
     ],
     context:
-      'Kadanz transforme un objectif d’épargne en billet d’avion. Le billet compte les jours jusqu’au départ, et un repère sur la trajectoire indique où l’épargne devrait en être aujourd’hui. Pas de banque connectée, pas de budget à tenir : un objectif, un rythme.',
+      'Kadanz aide à mettre de côté pour un projet : un voyage, un achat, un mariage. Chaque objectif devient une carte d’embarquement, et l’app montre d’un coup d’œil si l’on est dans le rythme pour partir à la date prévue.',
     challenge:
       'Rendre l’épargne motivante sans jamais culpabiliser : pas de badges, pas de séries à tenir, seulement des dates et des montants.',
     done: [
-      { t: 'Un design system partagé', d: 'Android et iOS lisent les mêmes tokens : couleurs, typographies, espacements. Aucune plateforme n’invente une couleur ou une taille.' },
-      { t: 'Deux apps natives', d: 'Jetpack Compose sur Android, SwiftUI sur iOS, avec le même billet, les mêmes thèmes et le même comportement.' },
-      { t: 'Un billet qui prend vie', d: 'Trajectoire animée, tableau des départs qui s’affiche lettre par lettre, tampon pour les billets archivés.' },
+      { t: 'Le produit, de A à Z', d: 'Seul sur tout le projet : l’idée, l’offre, le design, le développement, jusqu’à la préparation de la sortie sur les stores.' },
+      { t: 'Deux apps natives, une seule logique', d: 'La logique est écrite une fois en Kotlin Multiplatform. Les écrans sont natifs, en Jetpack Compose sur Android et en SwiftUI sur iOS, et suivent le même design system.' },
+      { t: 'Un billet qui prend vie', d: 'Un tableau des départs qui s’affiche lettre par lettre, un avion qui avance avec l’épargne, un billet doré à l’arrivée, et des widgets sur l’écran d’accueil.' },
     ],
-    facts: [
-      { v: '1 billet', l: 'trois thèmes : nuit, clair et embarqué' },
-      { v: '2 plateformes', l: 'un seul jeu de tokens' },
-      { v: '0 compte', l: 'bancaire connecté, par choix' },
-    ],
-    stack: ['Kotlin', 'Jetpack Compose', 'Swift', 'SwiftUI', 'Design tokens'],
+    facts: [],
+    stack: ['Kotlin Multiplatform', 'Jetpack Compose', 'SwiftUI', 'Room', 'Koin', 'Firebase'],
   },
   {
     id: 'musherr',
@@ -207,7 +203,7 @@ export const projects: Project[] = [
     meta: [
       { k: 'Rôle', v: 'Co-fondateur, développeur Android' },
       { k: 'Équipe', v: 'Six étudiants d’Epitech Lyon' },
-      { k: 'Plateforme', v: 'Android · Kotlin' },
+      { k: 'Plateforme', v: 'Android' },
       { k: 'Statut', v: 'Version 1 publiée en 2023, retirée depuis' },
     ],
     context:
