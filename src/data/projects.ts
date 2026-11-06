@@ -3,6 +3,9 @@
 import type { ImageMetadata } from 'astro';
 import thuriiEquipe from '../assets/thurii/equipe.jpg';
 import thuriiVideoApercu from '../assets/thurii/video-apercu.jpg';
+import kadanzAccueil from '../assets/kadanz/ecran-accueil.jpg';
+import kadanzAvancee from '../assets/kadanz/ecran-avancee.jpg';
+import kadanzBilletDore from '../assets/kadanz/ecran-billet-dore.jpg';
 import { kadanzWordmark } from './kadanz';
 import { thuriiWordmark } from './thurii';
 
@@ -29,6 +32,8 @@ export interface Project {
     photo?: { src: ImageMetadata; alt: string; caption: string };
     /** Images montrées dans leur format d'origine, sur toute la largeur. */
     images?: { src: ImageMetadata; alt: string; caption: string }[];
+    /** Captures d'écran de l'app, côte à côte dans un cadre de téléphone. */
+    screens?: { src: ImageMetadata; alt: string; caption: string }[];
   };
   /** Où trouver l'app : boutons des stores et réseaux sociaux, en fin de page. */
   links?: {
@@ -73,6 +78,13 @@ export const projects: Project[] = [
     tagline: 'Un objectif d’épargne devient une carte d’embarquement.',
     title: { font: "'Jost', sans-serif", weight: 300, tracking: '0.04em', cardSize: 40, cardTracking: '0.04em' },
     wordmark: { ...kadanzWordmark, scale: 0.62 },
+    media: {
+      screens: [
+        { src: kadanzAccueil, alt: 'Accueil de Kadanz : trois objectifs présentés comme des billets d’avion, Tokyo, Lisbonne et Mariage.', caption: 'Chaque objectif devient un billet.' },
+        { src: kadanzAvancee, alt: 'Écran d’ajout d’une avancée de 400 € : le rythme mensuel passe de 366 € à 333 €.', caption: 'Une avancée, et le rythme se recalcule.' },
+        { src: kadanzBilletDore, alt: 'Billet doré de Tokyo, objectif atteint : 3 500 € sur 3 500 €, embarqué.', caption: 'Objectif atteint : le billet devient doré.' },
+      ],
+    },
     links: {
       note: 'Bientôt sur Android et iPhone.',
       website: 'https://kadanz.app',

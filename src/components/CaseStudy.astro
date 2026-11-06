@@ -21,6 +21,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 const video = p.media?.video;
 const photo = p.media?.photo;
 const images = p.media?.images ?? [];
+const screens = p.media?.screens ?? [];
 // Vidéo et photo côte à côte ; les images pleine largeur passent en dessous.
 const paired = Boolean(video && photo);
 const links = p.links;
@@ -142,10 +143,11 @@ const vars = [
   </section>
 
   {
-    (video || photo || images.length > 0) && (
+    (video || photo || images.length > 0 || screens.length > 0) && (
       <section class="cs__wrap cs__media" aria-labelledby={`etude-${p.id}-images`}>
         {thurii && <Image class="cs__branch" src={thuriiBranch} alt="" width={620} loading="lazy" />}
         <h4 id={`etude-${p.id}-images`}>En images</h4>
+        {(video || photo || images.length > 0) && (
         <div class:list={['cs__media-grid', { 'cs__media-grid--pair': paired }]}>
           {video && (
             <figure class="cs__video">
@@ -182,6 +184,26 @@ const vars = [
             </figure>
           ))}
         </div>
+        )}
+        {screens.length > 0 && (
+          <div class="cs__screens">
+            {screens.map((sc) => (
+              <figure class="cs__screen">
+                <span class="cs__bezel">
+                  <Picture
+                    src={sc.src}
+                    formats={['avif', 'webp']}
+                    widths={[320, 640, 960]}
+                    sizes="(max-width: 800px) 70vw, 290px"
+                    alt={sc.alt}
+                    loading="lazy"
+                  />
+                </span>
+                <figcaption>{sc.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+        )}
       </section>
     )
   }
@@ -474,6 +496,36 @@ const vars = [
   /* Cadre fin : le visuel a le même fond que la page. */
   .cs__media :global(.cs__image img) { display: block; width: 100%; height: auto; border-radius: 20px; box-shadow: 0 0 0 1px var(--cs-line); }
   .cs__media figcaption { font-size: 14px; color: var(--cs-ink2); }
+  /* Captures d'écran : trois téléphones côte à côte, en défilement horizontal sur mobile. */
+  .cs__screens {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 4vw, 56px);
+    padding-inline: clamp(0px, 6vw, 72px);
+  }
+  .cs__screen { align-items: center; text-align: center; }
+  .cs__bezel {
+    display: block;
+    width: 100%;
+    max-width: 290px;
+    padding: 7px;
+    border-radius: 44px;
+    background: #0a1822;
+    box-shadow: 0 0 0 1px var(--cs-line), 0 24px 60px rgba(0, 0, 0, 0.35);
+  }
+  .cs__bezel :global(img) { display: block; width: 100%; height: auto; border-radius: 37px; }
+  @media (max-width: 800px) {
+    .cs__screens {
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      grid-auto-columns: min(70vw, 300px);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 0 0 12px;
+    }
+    .cs__screen { scroll-snap-align: center; }
+  }
   @media (max-width: 800px) {
     .cs__media-grid--pair { grid-template-columns: minmax(0, 1fr); }
   }
