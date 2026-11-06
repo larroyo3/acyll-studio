@@ -1,6 +1,7 @@
 ---
 import { Image, Picture, getImage } from 'astro:assets';
 import AppPhone from './AppPhone.astro';
+import { kadanzMark, kadanzPlane } from '../data/kadanz';
 import Icon from './Icon.astro';
 import thuriiMountains from '../assets/thurii/montagnes.webp';
 import thuriiPinecone from '../assets/thurii/pomme-de-pin.webp';
@@ -19,9 +20,16 @@ const { project: p, next } = Astro.props;
 const pad = (n: number) => String(n).padStart(2, '0');
 const video = p.media?.video;
 const photo = p.media?.photo;
+const images = p.media?.images ?? [];
+// Vidéo et photo côte à côte ; les images pleine largeur passent en dessous.
+const paired = Boolean(video && photo);
+const links = p.links;
+const networks = { tiktok: 'TikTok', instagram: 'Instagram', facebook: 'Facebook' } as const;
 const poster = video ? await getImage({ src: video.poster, width: 1280, format: 'webp' }) : undefined;
 // Illustrations de la charte Thurii, en filigrane (comme sur ses cartes de visite).
 const thurii = p.id === 'thurii';
+// Kadanz : le billet en filigrane dans l'en-tête, le trajet de l'avion dans « Le défi ».
+const kadanz = p.id === 'kadanz';
 const t = p.theme;
 const vars = [
   `--cs-bg: ${t.bg}`,
@@ -39,7 +47,7 @@ const vars = [
 ].join('; ');
 ---
 
-<div class="cs" style={vars}>
+<div class:list={['cs', { 'cs--kadanz': kadanz }]} style={vars}>
   {thurii && <Image class="cs__acorns" src={thuriiAcorns} alt="" width={520} loading="lazy" />}
   <div class="cs__wrap cs__bar">
     <button type="button" class="cs__back" data-case-close>
@@ -55,7 +63,7 @@ const vars = [
         {
           p.wordmark ? (
             <>
-              <svg class="cs__wordmark" viewBox={p.wordmark.viewBox} fill="currentColor" aria-hidden="true">
+              <svg class="cs__wordmark" viewBox={p.wordmark.viewBox} fill="currentColor" aria-hidden="true" style={`--wm-scale: ${p.wordmark.scale ?? 1}`}>
                 <path d={p.wordmark.d} />
               </svg>
               <span class="sr-only">{p.name}</span>
@@ -79,10 +87,19 @@ const vars = [
     </div>
     <div class="cs__visual">
       <div class="cs__glow" aria-hidden="true"></div>
+      {
+        kadanz && (
+          <svg class="cs__hero-ticket" viewBox={kadanzMark.viewBox} aria-hidden="true" focusable="false">
+            <path class="cs__hero-ticket-paper" d={kadanzMark.paper} />
+            <path class="cs__hero-ticket-ink" d={`${kadanzMark.k}${kadanzMark.perforation}`} />
+          </svg>
+        )
+      }
       <div class="cs__float"><AppPhone app={p.id} /></div>
     </div>
   </section>
 
+  {p.facts.length > 0 && (
   <section class="cs__wrap cs__facts" aria-label="Chiffres clés">
     <div class="cs__facts-grid">
       {
@@ -95,6 +112,7 @@ const vars = [
       }
     </div>
   </section>
+  )}
 
   <section class:list={['cs__context', { 'cs__context--decor': thurii }]}>
     {thurii && <Image class="cs__mountains" src={thuriiMountains} alt="" width={1400} loading="lazy" />}
@@ -106,6 +124,17 @@ const vars = [
 
   <section class="cs__challenge">
     {thurii && <Image class="cs__pinecone" src={thuriiPinecone} alt="" width={460} loading="lazy" />}
+    {
+      kadanz && (
+        <svg class="cs__trip" viewBox="0 0 976 180" aria-hidden="true" focusable="false">
+          <path class="cs__trip-ahead" d="M168 82C380 -12 700 -14 948 150" />
+          <path class="cs__trip-flown" d="M26 153L104 110" />
+          <circle class="cs__trip-from" cx="26" cy="153" r="10" />
+          <circle class="cs__trip-to" cx="950" cy="153" r="12" />
+          <path class="cs__trip-plane" d={kadanzPlane} transform="translate(130 96) rotate(62) translate(-30 -30) scale(0.5)" />
+        </svg>
+      )
+    }
     <div class="cs__wrap cs__challenge-inner">
       <h4 class="cs__label">Le défi</h4>
       <p>{p.challenge}</p>
@@ -113,11 +142,11 @@ const vars = [
   </section>
 
   {
-    (video || photo) && (
+    (video || photo || images.length > 0) && (
       <section class="cs__wrap cs__media" aria-labelledby={`etude-${p.id}-images`}>
         {thurii && <Image class="cs__branch" src={thuriiBranch} alt="" width={620} loading="lazy" />}
         <h4 id={`etude-${p.id}-images`}>En images</h4>
-        <div class="cs__media-grid">
+        <div class:list={['cs__media-grid', { 'cs__media-grid--pair': paired }]}>
           {video && (
             <figure class="cs__video">
               <video controls preload="none" playsinline poster={poster?.src} aria-label={video.title}>
@@ -139,6 +168,19 @@ const vars = [
               <figcaption>{photo.caption}</figcaption>
             </figure>
           )}
+          {images.map((img) => (
+            <figure class="cs__image">
+              <Picture
+                src={img.src}
+                formats={['avif', 'webp']}
+                widths={[600, 1200, 1800]}
+                sizes="(max-width: 1240px) 92vw, 1144px"
+                alt={img.alt}
+                loading="lazy"
+              />
+              <figcaption>{img.caption}</figcaption>
+            </figure>
+          ))}
         </div>
       </section>
     )
@@ -161,6 +203,54 @@ const vars = [
       {p.stack.map((s) => <li>{s}</li>)}
     </ul>
   </section>
+
+  {
+    links && (
+      <section class="cs__wrap cs__get" aria-label={`Télécharger et suivre ${p.name}`}>
+        <div class="cs__get-col">
+          <h4>Télécharger {p.name}</h4>
+          {links.note && <p>{links.note}</p>}
+          <div class="cs__stores">
+            {links.stores.android && (
+              <a class="cs__store" href={links.stores.android} {...external}>
+                <Icon name="google-play" size={24} />
+                <span><small>Disponible sur</small>Google Play</span>
+              </a>
+            )}
+            {links.stores.ios && (
+              <a class="cs__store" href={links.stores.ios} {...external}>
+                <Icon name="apple" size={24} />
+                <span><small>Télécharger dans</small>l’App Store</span>
+              </a>
+            )}
+          </div>
+        </div>
+        <div class="cs__get-col">
+          <h4>Suivre {p.name}</h4>
+          <p>Les nouvelles de l’app, sur son site et ses réseaux.</p>
+          <div class="cs__follow">
+            {links.website && (
+              <a class="cs__site" href={links.website} {...external}>
+                {links.website.replace(/^https?:\/\//, '')}
+                <Icon name="arrow-up-right" size={18} />
+              </a>
+            )}
+            {links.socials.length > 0 && (
+              <ul class="cs__socials">
+                {links.socials.map((so) => (
+                  <li>
+                    <a href={so.url} {...external} aria-label={`${p.name} sur ${networks[so.network]}`}>
+                      <Icon name={so.network} size={20} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   <section class="cs__wrap cs__end">
     <div class="cs__cta">
@@ -262,7 +352,7 @@ const vars = [
     transform: rotate(10deg);
     pointer-events: none;
   }
-  .cs__wordmark { display: block; height: clamp(64px, 9vw, 120px); width: auto; }
+  .cs__wordmark { display: block; height: calc(clamp(64px, 9vw, 120px) * var(--wm-scale, 1)); width: auto; max-width: 100%; }
 
   /* Filigranes Thurii */
   /* Montagnes en fond de « Le contexte » : image entière (ni recadrée ni déformée), calée en bas à droite. */
@@ -299,6 +389,42 @@ const vars = [
     pointer-events: none;
   }
 
+  /* Filigranes Kadanz, à l'or du billet. */
+  /* En-tête : le billet plein (papier or, K en creux), incliné et à moitié caché par le téléphone. */
+  .cs__hero-ticket {
+    position: absolute;
+    left: -170px;
+    top: 40px;
+    width: clamp(220px, 22vw, 300px);
+    height: auto;
+    opacity: .18;
+    transform: rotate(-14deg);
+    pointer-events: none;
+  }
+  .cs__hero-ticket-paper { fill: var(--cs-accent-text); }
+  /* En une colonne, le téléphone est centré : le billet dépasse à gauche, sans sortir de l'écran. */
+  @media (max-width: 1000px) {
+    .cs__hero-ticket { left: max(-30px, calc(50% - 300px)); top: 10px; width: 200px; }
+  }
+  .cs__hero-ticket-ink { fill: none; stroke: var(--cs-bg); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  /* Le défi : le petit trajet de l'avion des e-mails Kadanz, en bas à droite. */
+  .cs__trip {
+    position: absolute;
+    right: max(24px, calc(50% - 640px));
+    bottom: 36px;
+    width: min(440px, 62%);
+    height: auto;
+    fill: none;
+    stroke-linecap: round;
+    opacity: .55;
+    pointer-events: none;
+  }
+  .cs__trip-flown { stroke: var(--cs-accent-text); stroke-width: 6; }
+  .cs__trip-ahead { stroke: var(--cs-ink2); stroke-width: 6; stroke-dasharray: 0.01 18; }
+  .cs__trip-from { fill: var(--cs-accent-text); }
+  .cs__trip-to { stroke: var(--cs-ink2); stroke-width: 5; }
+  .cs__trip-plane { fill: var(--cs-accent-text); }
+
   /* En images : vidéo et photo à la même hauteur (colonnes au prorata de leurs formats). */
   /* Après « Le défi » : le projet en images, avant de détailler mon rôle. */
   .cs__media {
@@ -329,9 +455,11 @@ const vars = [
   .cs__media-grid {
     position: relative;
     display: grid;
-    grid-template-columns: 16fr 13.5fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
   }
+  .cs__media-grid--pair { grid-template-columns: 16fr 13.5fr; }
+  .cs__media-grid--pair > .cs__image { grid-column: 1 / -1; }
   .cs__media figure { margin: 0; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
   .cs__media video,
   .cs__media :global(.cs__photo img) {
@@ -343,9 +471,11 @@ const vars = [
   }
   .cs__media video { aspect-ratio: 16 / 9; }
   .cs__media :global(.cs__photo img) { aspect-ratio: 3 / 2; object-fit: cover; }
+  /* Cadre fin : le visuel a le même fond que la page. */
+  .cs__media :global(.cs__image img) { display: block; width: 100%; height: auto; border-radius: 20px; box-shadow: 0 0 0 1px var(--cs-line); }
   .cs__media figcaption { font-size: 14px; color: var(--cs-ink2); }
   @media (max-width: 800px) {
-    .cs__media-grid { grid-template-columns: minmax(0, 1fr); }
+    .cs__media-grid--pair { grid-template-columns: minmax(0, 1fr); }
   }
   .cs__tagline {
     margin: 0;
@@ -507,6 +637,75 @@ const vars = [
     border: 1px solid var(--cs-line);
     font-size: 14px;
   }
+
+  /* Où trouver l'app : deux moitiés, « Télécharger » et « Suivre ». */
+  .cs__get {
+    padding-bottom: 88px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 16px;
+  }
+  .cs__get-col {
+    padding: clamp(28px, 4vw, 44px);
+    border-radius: var(--radius-lg);
+    background: var(--cs-panel);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .cs__get h4 {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: clamp(26px, 2.6vw, 34px);
+    line-height: 1.1;
+  }
+  .cs__get-col > p { margin: 0 0 12px; font-size: 16px; line-height: 1.5; color: var(--cs-ink2); }
+  .cs__stores { display: flex; flex-wrap: wrap; gap: 12px; }
+  .cs__store {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 56px;
+    padding: 8px 22px 8px 18px;
+    border-radius: 14px;
+    background: var(--cs-ink);
+    color: var(--cs-bg);
+    text-decoration: none;
+    transition: transform .2s ease;
+  }
+  .cs__store:hover { transform: translateY(-2px); }
+  .cs__store span { display: flex; flex-direction: column; font-size: 18px; font-weight: 700; line-height: 1.1; }
+  .cs__store small { font-size: 11px; font-weight: 400; letter-spacing: .06em; opacity: .75; }
+  .cs__follow { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .cs__site {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 56px;
+    padding: 0 22px;
+    border-radius: 14px;
+    border: 1px solid var(--cs-line);
+    color: var(--cs-ink);
+    font-size: 17px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: border-color .2s ease;
+  }
+  .cs__site:hover { border-color: var(--cs-accent); }
+  .cs__socials { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; }
+  .cs__socials a {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid var(--cs-line);
+    color: var(--cs-ink);
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .cs__socials a:hover { border-color: var(--cs-accent); color: var(--cs-accent-text); }
 
   .cs__end {
     padding-bottom: 96px;

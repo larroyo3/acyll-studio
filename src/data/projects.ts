@@ -3,6 +3,7 @@
 import type { ImageMetadata } from 'astro';
 import thuriiEquipe from '../assets/thurii/equipe.jpg';
 import thuriiVideoApercu from '../assets/thurii/video-apercu.jpg';
+import { kadanzWordmark } from './kadanz';
 import { thuriiWordmark } from './thurii';
 
 export type ProjectId = 'kadanz' | 'musherr' | 'dictfr' | 'thurii';
@@ -16,12 +17,25 @@ export interface Project {
   chips: [string, string];
   kind: string;
   tagline: string;
-  /** Nom dessiné dans sa typo de marque (remplace le texte, sur la carte et en tête de page). */
-  wordmark?: { viewBox: string; d: string };
-  /** Vidéo et photo affichées en bas de la page du projet. `video.src` est relatif à public/. */
+  /**
+   * Nom dessiné dans sa typo de marque (remplace le texte, sur la carte et en tête de page).
+   * `scale` ajuste sa hauteur : un logo tout en capitales paraît plus grand qu'un logo en minuscules.
+   */
+  wordmark?: { viewBox: string; d: string; scale?: number };
+  /** Vidéo et images de « En images ». `video.src` est relatif à public/. */
   media?: {
     video?: { src: string; poster: ImageMetadata; title: string };
+    /** Photo recadrée en 3:2, à côté de la vidéo. */
     photo?: { src: ImageMetadata; alt: string; caption: string };
+    /** Images montrées dans leur format d'origine, sur toute la largeur. */
+    images?: { src: ImageMetadata; alt: string; caption: string }[];
+  };
+  /** Où trouver l'app : boutons des stores et réseaux sociaux, en fin de page. */
+  links?: {
+    note?: string;
+    website?: string;
+    stores: { android?: string; ios?: string };
+    socials: { network: 'tiktok' | 'instagram' | 'facebook'; url: string }[];
   };
   /** Typo du nom du projet : `tracking` pour l'étude de cas, `card*` pour la carte du carrousel. */
   title: { font: string; weight: number; tracking: string; cardSize: number; cardTracking: string };
@@ -41,6 +55,7 @@ export interface Project {
   context: string;
   challenge: string;
   done: { t: string; d: string }[];
+  /** Chiffres clés sous l'en-tête. Vide : la section n'est pas affichée (app pas encore sortie). */
   facts: { v: string; l: string }[];
   stack: string[];
 }
@@ -57,6 +72,18 @@ export const projects: Project[] = [
     kind: 'App perso · Android & iOS',
     tagline: 'Un objectif d’épargne devient une carte d’embarquement.',
     title: { font: "'Jost', sans-serif", weight: 300, tracking: '0.04em', cardSize: 40, cardTracking: '0.04em' },
+    wordmark: { ...kadanzWordmark, scale: 0.62 },
+    links: {
+      note: 'Bientôt sur Android et iPhone.',
+      website: 'https://kadanz.app',
+      // TODO : lien App Store et adresses des réseaux à renseigner.
+      stores: { android: 'https://play.google.com/store/apps/details?id=com.acyll.kadanz', ios: 'https://kadanz.app' },
+      socials: [
+        { network: 'tiktok', url: '#' },
+        { network: 'instagram', url: '#' },
+        { network: 'facebook', url: '#' },
+      ],
+    },
     theme: {
       bg: '#0f2a3f', panel: '#163852', glow: '#1d4763', ink: '#ffffff', ink2: '#9fc4df',
       accent: '#c79a4b', onAccent: '#0f2a3f', accentText: '#e3c489', line: 'rgba(255,255,255,0.16)',
